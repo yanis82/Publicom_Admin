@@ -16,9 +16,15 @@ public class MainFrame extends javax.swing.JFrame {
      * Creates new form MainFrame
      */
     private DefaultTableModel userTableModel;
+
+    private Object[] tableColumns = new Object[]{"nom", "prenom", "mail", "mot de passe"};
+    private Object[][] tableDatas = new Object[][]{};
+    private DefaultTableModel tableModel = new DefaultTableModel(tableDatas, tableColumns);
+
+    ;
+    
     public MainFrame() {
         initComponents();
-        this.userTableModel = new DefaultTableModel();
     }
 
     /**
@@ -30,104 +36,107 @@ public class MainFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jPanel1 = new javax.swing.JPanel();
+        PanelForm = new javax.swing.JPanel();
+        PanelFormLeft = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        btnCreateUser = new javax.swing.JButton();
-        tfUserName = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        tfUSerPassword = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        PanelFormRight = new javax.swing.JPanel();
+        tfPrenom = new javax.swing.JTextField();
+        tfNom = new javax.swing.JTextField();
+        tfMail = new javax.swing.JTextField();
+        tfMotDePasse = new javax.swing.JTextField();
+        jPanel2 = new javax.swing.JPanel();
+        btnAddUser = new javax.swing.JButton();
+        PanelTable = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        TableUser = new javax.swing.JTable();
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Publicom [Shizu est magnifique]");
+        getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.PAGE_AXIS));
 
-        jTable1.setModel(this.userTableModel);
-        jScrollPane1.setViewportView(jTable1);
+        PanelForm.setLayout(new javax.swing.BoxLayout(PanelForm, javax.swing.BoxLayout.LINE_AXIS));
 
-        jLabel1.setText("nom :");
+        PanelFormLeft.setLayout(new javax.swing.BoxLayout(PanelFormLeft, javax.swing.BoxLayout.PAGE_AXIS));
 
-        btnCreateUser.setText("Ajouter");
-        btnCreateUser.addActionListener(new java.awt.event.ActionListener() {
+        jLabel1.setText("prenom");
+        PanelFormLeft.add(jLabel1);
+
+        jLabel2.setText("nom");
+        PanelFormLeft.add(jLabel2);
+
+        jLabel6.setText("mail");
+        PanelFormLeft.add(jLabel6);
+
+        jLabel5.setText("mot de passe");
+        PanelFormLeft.add(jLabel5);
+
+        PanelForm.add(PanelFormLeft);
+
+        PanelFormRight.setLayout(new javax.swing.BoxLayout(PanelFormRight, javax.swing.BoxLayout.PAGE_AXIS));
+        PanelFormRight.add(tfPrenom);
+        PanelFormRight.add(tfNom);
+
+        tfMail.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCreateUserActionPerformed(evt);
+                tfMailActionPerformed(evt);
             }
         });
+        PanelFormRight.add(tfMail);
+        PanelFormRight.add(tfMotDePasse);
 
-        tfUserName.addActionListener(new java.awt.event.ActionListener() {
+        PanelForm.add(PanelFormRight);
+
+        getContentPane().add(PanelForm);
+
+        jPanel2.setLayout(new java.awt.CardLayout());
+
+        btnAddUser.setText("Ajouter");
+        btnAddUser.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tfUserNameActionPerformed(evt);
+                btnAddUserActionPerformed(evt);
             }
         });
+        jPanel2.add(btnAddUser, "card2");
 
-        jLabel2.setText("mot de passe :");
+        getContentPane().add(jPanel2);
 
-        tfUSerPassword.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tfUSerPasswordActionPerformed(evt);
-            }
-        });
+        PanelTable.setLayout(new java.awt.BorderLayout());
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(170, 170, 170)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(tfUserName)
-                                .addGap(47, 47, 47))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(tfUSerPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)))
-                        .addComponent(btnCreateUser)
-                        .addGap(406, 406, 406)))
-                .addContainerGap(9, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(60, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel1)
-                                    .addComponent(tfUserName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(tfUSerPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(btnCreateUser)
-                        .addGap(30, 30, 30)))
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(70, 70, 70))
-        );
+        TableUser.setModel(this.tableModel);
+        TableUser.setEnabled(false);
+        jScrollPane1.setViewportView(TableUser);
+
+        PanelTable.add(jScrollPane1, java.awt.BorderLayout.CENTER);
+
+        getContentPane().add(PanelTable);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void tfUserNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfUserNameActionPerformed
+    private void tfMailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfMailActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_tfUserNameActionPerformed
+    }//GEN-LAST:event_tfMailActionPerformed
 
-    private void tfUSerPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfUSerPasswordActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tfUSerPasswordActionPerformed
-
-    private void btnCreateUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateUserActionPerformed
-        // TODO add your handling code here:
+    private void btnAddUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddUserActionPerformed
         System.out.println("action performed");
-    }//GEN-LAST:event_btnCreateUserActionPerformed
+        Object[] row = new Object[]{this.tfPrenom.getText(), this.tfNom.getText(), this.tfMail.getText(), this.tfMotDePasse.getText()};
+        this.tableModel.addRow(row);
+    }//GEN-LAST:event_btnAddUserActionPerformed
 
     /**
      * @param args the command line arguments
@@ -164,12 +173,22 @@ public class MainFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnCreateUser;
+    private javax.swing.JPanel PanelForm;
+    private javax.swing.JPanel PanelFormLeft;
+    private javax.swing.JPanel PanelFormRight;
+    private javax.swing.JPanel PanelTable;
+    private javax.swing.JTable TableUser;
+    private javax.swing.JButton btnAddUser;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField tfUSerPassword;
-    private javax.swing.JTextField tfUserName;
+    private javax.swing.JTextField tfMail;
+    private javax.swing.JTextField tfMotDePasse;
+    private javax.swing.JTextField tfNom;
+    private javax.swing.JTextField tfPrenom;
     // End of variables declaration//GEN-END:variables
 }
