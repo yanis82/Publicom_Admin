@@ -50,12 +50,12 @@ public class UtilisateurModel {
 
     @Override
     public String toString() {
-        return "UtilisateurModel{" + "id=" + id + ", nom=" + nom + ", prenom=" + prenom + ", email=" + email + ", isAdmin=" + isAdmin + ", motDePasse=" + motDePasse + '}';
+        return "UtilisateurModel{" + "id=" + id + ", nom=" + nom + ", prenom=" + prenom + ", email=" + email + ", isAdmin=" + isAdmin + ", motDePasse=" + motDePasse + "}\n";
     }
 
     public static ArrayList<UtilisateurModel> getAllUtilisateur() throws SQLException {
         String sql = "select * from utilisateur u";
-        var connection = MysqlConnector.getConnection();
+        var connection = MysqlConnector.getConnexion();
         Statement stmt = connection.createStatement();
         var result = stmt.executeQuery(sql);
         ArrayList<UtilisateurModel> allUtilisateur = new ArrayList();
@@ -76,7 +76,7 @@ public class UtilisateurModel {
                 + "(\"%s\", \"%s\", \"%s\", %d, \"%s\")", this.nom, this.prenom, this.email, this.isAdmin ? 1 : 0, this.motDePasse);
         System.out.println(query);
         try {
-            var stat = MysqlConnector.getConnection().createStatement();
+            var stat = MysqlConnector.getConnexion().createStatement();
             Boolean isSuccess = stat.execute(query);
             System.out.println("isSuccess: " + isSuccess);
             stat.close();
@@ -91,7 +91,7 @@ public class UtilisateurModel {
         System.out.println(query);
         try {
             int nbEmail = 0;
-            Statement stat = MysqlConnector.getConnection().createStatement();
+            Statement stat = MysqlConnector.getConnexion().createStatement();
             ResultSet executedSelect = stat.executeQuery(query);
             if (executedSelect.next()) {
                 nbEmail = executedSelect.getInt("nbEmail");
@@ -152,4 +152,11 @@ public class UtilisateurModel {
         this.motDePasse = motDePasse;
     }
 
+    public void addId(Integer id) throws Exception {
+        if (this.id == null) {
+            this.id = id;
+        } else {
+            throw new Exception("utilisateur a déjà un identifiant");
+        }
+    }
 }

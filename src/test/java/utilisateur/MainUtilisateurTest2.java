@@ -4,19 +4,18 @@
  */
 package utilisateur;
 
-import Model.MysqlConnector;
+import DAO.UtilisateurDao;
 import Model.UtilisateurModel;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.AfterEach;
 import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  *
@@ -55,7 +54,7 @@ public class MainUtilisateurTest2 {
             System.out.println(utilisateurs);
             assert (true);
         } catch (SQLException ex) {
-            Logger.getLogger(MainUtilisateurTest.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MainUtilisateurTest2.class.getName()).log(Level.SEVERE, null, ex);
             assert (false);
         }
     }
@@ -64,4 +63,78 @@ public class MainUtilisateurTest2 {
     public void testGetAllUtilisateur() throws SQLException {
         assertDoesNotThrow(() -> UtilisateurModel.getAllUtilisateur());
     }
+
+    @Test
+    public void testCreate() throws SQLException {
+        UtilisateurModel utilisateurModel = new UtilisateurModel("Dupont", "Jean", "jean.dupont@email.com", false, "motdepasse");
+
+        // Créer l'utilisateur
+        UtilisateurDao dao = new UtilisateurDao() {
+        };
+        utilisateurModel = dao.create(utilisateurModel);
+
+        // Vérifier que l'ID a été généré
+        assertNotNull(utilisateurModel.getId());
+
+        // Vérifier que l'utilisateur a été inséré en base de données
+        UtilisateurModel utilisateurLu = dao.get(utilisateurModel.getId());
+        dao.delete(utilisateurModel);
+        assertEquals(utilisateurModel.getId(), utilisateurLu.getId());
+        assertEquals(utilisateurModel.getNom(), utilisateurLu.getNom());
+        assertEquals(utilisateurModel.getPrenom(), utilisateurLu.getPrenom());
+        assertEquals(utilisateurModel.getEmail(), utilisateurLu.getEmail());
+        assertEquals(utilisateurModel.getIsAdmin(), utilisateurLu.getIsAdmin());
+        assertEquals(utilisateurModel.getMotDePasse(), utilisateurLu.getMotDePasse());
+    }
+
+    @Test
+    public void testDelete() throws SQLException {
+        UtilisateurModel utilisateurModel = new UtilisateurModel("Martin", "Pierre", "pierre.martin@email.com", true, "motdepasse");
+
+        // Créer l'utilisateur
+        UtilisateurDao dao = new UtilisateurDao() {
+        };
+        utilisateurModel = dao.create(utilisateurModel);
+
+        // Supprimer l'utilisateur
+        dao.delete(utilisateurModel);
+
+        // Vérifier que l'utilisateur a été supprimé
+        UtilisateurModel utilisateurLu = dao.get(utilisateurModel.getId());
+        assertNull(utilisateurLu);
+    }
+
+    @Test
+    public void testGetAll() throws SQLException {
+        UtilisateurModel utilisateur1 = new UtilisateurModel("Durand", "Paul", "paul.durant@email.com", false, "motdepasse1");
+        UtilisateurModel utilisateur2 = new UtilisateurModel("Leroy", "Marie", "marie.leroy@email.com", true, "motdepasse2");
+
+        // Créer les utilisateurs
+        UtilisateurDao dao = new UtilisateurDao() {
+        };
+        utilisateur1 = dao.create(utilisateur1);
+        utilisateur2 = dao.create(utilisateur2);
+
+        // Récupérer tous les utilisateurs
+        ArrayList<UtilisateurModel> utilisateurs = dao.getAll();
+        System.out.println("utilisateurs : \n" + utilisateurs);
+        System.out.println("utilisateur1: \n" + utilisateur1);
+        System.out.println("utilisateur2: \n" + utilisateur2);
+        // Vérifier que la liste contient les deux utilisateurs
+        assertEquals(dao.count(), utilisateurs.size());
+        // Vérifier que la liste contient les deux utilisateurs
+        boolean containsUtilisateur1 = false;
+        boolean containsUtilisateur2 = false;
+        for (UtilisateurModel utilisateur : utilisateurs) {
+            if (utilisateur.equals(utilisateur1)) {
+                containsUtilisateur1 = true;
+            } else if (utilisateur.equals(utilisateur2)) {
+                containsUtilisateur2 = true;
+            }
+        }
+
+        assertTrue(containsUtilisateur1);
+        assertTrue(containsUtilisateur2);
+    }
+
 }
