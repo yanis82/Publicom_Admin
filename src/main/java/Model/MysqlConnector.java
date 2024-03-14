@@ -19,7 +19,7 @@ public class MysqlConnector {
      * @return
      */
     public static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection("jdbc:mysql://localhost:3306/publicom_admin", "root", "");
+        return DriverManager.getConnection("jdbc:mysql://localhost:3306/publicom", "publicomAdmin", "publicomDb");
     }
 
 }

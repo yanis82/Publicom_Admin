@@ -7,6 +7,7 @@ package Model;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -52,6 +53,20 @@ public class UtilisateurModel {
         return "UtilisateurModel{" + "id=" + id + ", nom=" + nom + ", prenom=" + prenom + ", email=" + email + ", isAdmin=" + isAdmin + ", motDePasse=" + motDePasse + '}';
     }
 
+    public static ArrayList<UtilisateurModel> getAllUtilisateur() throws SQLException {
+        String sql = "select * from utilisateur u";
+        var connection = MysqlConnector.getConnection();
+        Statement stmt = connection.createStatement();
+        var result = stmt.executeQuery(sql);
+        ArrayList<UtilisateurModel> allUtilisateur = new ArrayList();
+
+        if (result.next()) {
+            var utilisateurList = new UtilisateurModel(result.getInt("IDUTILISATEUR"), result.getString("NOMUTILISATEUR"), result.getString("PRENOMUTILISATEUR"), result.getString("EMAILUTILISATEUR"), result.getBoolean("ISADMIN"), result.getString("MDPUTILISATEUR"));
+            allUtilisateur.add(utilisateurList);
+        }
+        return allUtilisateur;
+    }
+
     public void synchronyze() {
         this.emailAlreadyExistOnDb();
     }
@@ -81,10 +96,12 @@ public class UtilisateurModel {
             if (executedSelect.next()) {
                 nbEmail = executedSelect.getInt("nbEmail");
             }
-            if(nbEmail <= 0) {
+            if (nbEmail <= 0) {
                 this.insertToDb();
                 System.out.println("uilisateur cree");
-            }else System.out.println("utilisateur existe deja");
+            } else {
+                System.out.println("utilisateur existe deja");
+            }
         } catch (SQLException ex) {
             Logger.getLogger(UtilisateurModel.class.getName()).log(Level.SEVERE, null, ex);
         }

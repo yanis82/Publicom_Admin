@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.junit.jupiter.api.Test;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -19,6 +20,7 @@ public class MainUtilisateurTest {
     /**
      * @param args the command line arguments
      */
+    @Test
     public static void main(String[] args) {
         //        try (Connection connection = MysqlConnector.getConnection();) {
 //            String querySelectAll = "SELECT * From utilisateur u";
