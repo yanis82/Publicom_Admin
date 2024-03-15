@@ -21,9 +21,9 @@ import org.junit.jupiter.api.Test;
  *
  * @author L.sanchez
  */
-public class MainUtilisateurTest2 {
+public class MainUtilisateurTest {
 
-    public MainUtilisateurTest2() {
+    public MainUtilisateurTest() {
     }
 
     @BeforeAll
@@ -54,7 +54,7 @@ public class MainUtilisateurTest2 {
             System.out.println(utilisateurs);
             assert (true);
         } catch (SQLException ex) {
-            Logger.getLogger(MainUtilisateurTest2.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MainUtilisateurTest.class.getName()).log(Level.SEVERE, null, ex);
             assert (false);
         }
     }

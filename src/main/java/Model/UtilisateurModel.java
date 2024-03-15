@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -51,6 +52,24 @@ public class UtilisateurModel {
     @Override
     public String toString() {
         return "UtilisateurModel{" + "id=" + id + ", nom=" + nom + ", prenom=" + prenom + ", email=" + email + ", isAdmin=" + isAdmin + ", motDePasse=" + motDePasse + "}\n";
+    }
+
+    @Override
+    public boolean equals(Object utilisateur) {
+        if (this == utilisateur) {
+            return true; // Reflexivity: an object is always equal to itself
+        }
+        if (utilisateur == null || getClass() != utilisateur.getClass()) {
+            return false; // Objects of different classes or null are not equal
+        }
+        UtilisateurModel other = (UtilisateurModel) utilisateur;
+        // Compare significant fields for equality:
+        return Objects.equals(id, other.id)
+                && Objects.equals(nom, other.nom)
+                && Objects.equals(prenom, other.prenom)
+                && Objects.equals(email, other.email)
+                && Objects.equals(isAdmin, other.isAdmin);
+        // Exclude password from comparison for security reasons
     }
 
     public static ArrayList<UtilisateurModel> getAllUtilisateur() throws SQLException {

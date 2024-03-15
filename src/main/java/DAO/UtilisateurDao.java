@@ -18,7 +18,7 @@ import java.util.logging.Logger;
  *
  * @author L.sanchez
  */
-public abstract class UtilisateurDao extends AbstractDao<UtilisateurModel> {
+public class UtilisateurDao implements Dao<UtilisateurModel> {
 
     @Override
     public UtilisateurModel create(UtilisateurModel utilisateurModel) throws SQLException {

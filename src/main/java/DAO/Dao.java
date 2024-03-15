@@ -5,15 +5,15 @@
 package DAO;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author 08luc
  */
-public abstract class AbstractDao<T> {
+interface Dao<T> {
     public abstract T create(T utilisateurModel) throws SQLException;
     public abstract void delete(T utilisateurModel) throws SQLException;
     public abstract void update(T utilisateurModel) throws SQLException;
-    public abstract ArrayList<T> getAll() throws SQLException;
+    public abstract List<T> getAll() throws SQLException;
 }
