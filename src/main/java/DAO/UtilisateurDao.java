@@ -17,9 +17,10 @@ import java.util.logging.Logger;
  *
  * @author L.sanchez
  */
-public class UtilisateurDao implements Dao<UtilisateurModel> {
+public class UtilisateurDao extends SuperDao<UtilisateurModel> {
 
-    @Override
+    public UtilisateurDao() throws SQLException {}
+    
     public UtilisateurModel create(UtilisateurModel utilisateurModel) throws SQLException {
         if (this.emailAlready(utilisateurModel.getEmail())) {
             throw new SQLException("email existe deja en base de données");
@@ -181,7 +182,7 @@ public class UtilisateurDao implements Dao<UtilisateurModel> {
         stat.close();
         return count;
     }
-    
+
     public static ArrayList<UtilisateurModel> getAllUtilisateur() throws SQLException {
         String sql = String.format("select * from %s u", UtilisateurModel.getTable());
         var connection = MysqlConnector.getConnexion();
@@ -209,7 +210,7 @@ public class UtilisateurDao implements Dao<UtilisateurModel> {
             Logger.getLogger(UtilisateurModel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public void emailAlreadyExistOnDb(UtilisateurModel utilisateur) {
         String query = String.format("SELECT COUNT(*) as nbEmail from utilisateur u \n"
                 + "WHERE u.EMAILUTILISATEUR  = '%s';", utilisateur.getEmail());
@@ -232,7 +233,5 @@ public class UtilisateurDao implements Dao<UtilisateurModel> {
         }
 
     }
-    
-    
-    
+
 }

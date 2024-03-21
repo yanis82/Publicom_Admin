@@ -4,24 +4,16 @@
  */
 package Model;
 
-import DAO.MysqlConnector;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
  * @author 08luc
  */
-public class UtilisateurModel {
+public class UtilisateurModel extends Model {
 
-    /**
-     * @param args the command line arguments
-     */
     private Integer id;
     private String nom;
     private String prenom;
@@ -49,6 +41,18 @@ public class UtilisateurModel {
 
     static public String getTable() {
         return "UTILISATEUR";
+    }
+
+    public List<Colonne> getColonnes() {
+        List<Colonne> colonnes = new ArrayList<Colonne>();
+
+        colonnes.add(new Colonne("IDUTILISATEUR", int.class));
+        colonnes.add(new Colonne("NOMUTILISATEUR", String.class));
+        colonnes.add(new Colonne("PRENOMUTILISATEUR", String.class));
+        colonnes.add(new Colonne("EMAILUTILISATEUR", String.class));
+        colonnes.add(new Colonne("ISADMIN", boolean.class));
+        colonnes.add(new Colonne("MDPUTILISATEUR", String.class));
+        return colonnes;
     }
 
     @Override
