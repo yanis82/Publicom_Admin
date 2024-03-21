@@ -50,13 +50,9 @@ public class MainFrame extends javax.swing.JFrame {
         PanelForm = new javax.swing.JPanel();
         PanelFormLeft = new javax.swing.JPanel();
         PanelFormRight = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
         tfPrenom = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
         tfNom = new javax.swing.JTextField();
-        jLabel6 = new javax.swing.JLabel();
         tfMail = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
         tfMotDePasse = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         btnEditUser = new javax.swing.JButton();
@@ -90,21 +86,20 @@ public class MainFrame extends javax.swing.JFrame {
         PanelFormRight.setBackground(new java.awt.Color(51, 51, 51));
         PanelFormRight.setLayout(new javax.swing.BoxLayout(PanelFormRight, javax.swing.BoxLayout.PAGE_AXIS));
 
-        jLabel1.setBackground(new java.awt.Color(0, 0, 0));
-        jLabel1.setForeground(new java.awt.Color(204, 204, 204));
-        jLabel1.setText("prenom");
-        PanelFormRight.add(jLabel1);
+        tfPrenom.setBackground(new java.awt.Color(51, 51, 51));
+        tfPrenom.setForeground(new java.awt.Color(204, 204, 204));
+        tfPrenom.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Prenom", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(204, 204, 204))); // NOI18N
         PanelFormRight.add(tfPrenom);
 
-        jLabel2.setForeground(new java.awt.Color(204, 204, 204));
-        jLabel2.setText("nom");
-        PanelFormRight.add(jLabel2);
+        tfNom.setBackground(new java.awt.Color(51, 51, 51));
+        tfNom.setForeground(new java.awt.Color(204, 204, 204));
+        tfNom.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Nom", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(204, 204, 204))); // NOI18N
+        tfNom.setDisabledTextColor(new java.awt.Color(51, 51, 51));
         PanelFormRight.add(tfNom);
 
-        jLabel6.setForeground(new java.awt.Color(204, 204, 204));
-        jLabel6.setText("mail");
-        PanelFormRight.add(jLabel6);
-
+        tfMail.setBackground(new java.awt.Color(51, 51, 51));
+        tfMail.setForeground(new java.awt.Color(204, 204, 204));
+        tfMail.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Adresse mail", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(204, 204, 204))); // NOI18N
         tfMail.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tfMailActionPerformed(evt);
@@ -112,9 +107,9 @@ public class MainFrame extends javax.swing.JFrame {
         });
         PanelFormRight.add(tfMail);
 
-        jLabel5.setForeground(new java.awt.Color(204, 204, 204));
-        jLabel5.setText("mot de passe");
-        PanelFormRight.add(jLabel5);
+        tfMotDePasse.setBackground(new java.awt.Color(51, 51, 51));
+        tfMotDePasse.setForeground(new java.awt.Color(204, 204, 204));
+        tfMotDePasse.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Mot de passe", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(204, 204, 204))); // NOI18N
         PanelFormRight.add(tfMotDePasse);
 
         PanelForm.add(PanelFormRight);
@@ -288,10 +283,6 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton btnAddUser;
     private javax.swing.JButton btnDelUser;
     private javax.swing.JButton btnEditUser;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
