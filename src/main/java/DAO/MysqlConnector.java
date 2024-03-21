@@ -1,4 +1,4 @@
-package Model;
+package DAO;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -22,12 +22,15 @@ public class MysqlConnector {
      * @return
      */
     private static Connection con = null;
+    
+    private MysqlConnector() {} //static class should not have public constructor
 
     public static Connection getConnexion() {
+        final String PASSWORD = "publicomDb";
+        final String USER = "publicomAdmin";
         if (con == null) {
             try {
-                Class.forName("com.mysql.cj.jdbc.Driver");
-                con = DriverManager.getConnection("jdbc:mysql://localhost:3306/publicom", "publicomAdmin", "publicomDb");
+                con = DriverManager.getConnection("jdbc:mysql://172.28.36.14:3306/publicom", USER, PASSWORD);
             } catch (Exception ex) {
                 Logger.getLogger(MysqlConnector.class.getName()).log(Level.SEVERE, null, ex);
             }

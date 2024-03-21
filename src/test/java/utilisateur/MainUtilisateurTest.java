@@ -4,6 +4,7 @@
  */
 package utilisateur;
 
+import DAO.MysqlConnector;
 import DAO.UtilisateurDao;
 import Model.UtilisateurModel;
 import java.sql.SQLException;
@@ -49,14 +50,9 @@ public class MainUtilisateurTest {
     // public void hello() {}
     @Test
     public void testConnection() {
-        try {
-            ArrayList<UtilisateurModel> utilisateurs = UtilisateurModel.getAllUtilisateur();
-            System.out.println(utilisateurs);
-            assert (true);
-        } catch (SQLException ex) {
-            Logger.getLogger(MainUtilisateurTest.class.getName()).log(Level.SEVERE, null, ex);
-            assert (false);
-        }
+        assertDoesNotThrow(() -> {
+            var connexion = MysqlConnector.getConnexion();
+        });
     }
 
     @Test

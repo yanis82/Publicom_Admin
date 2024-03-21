@@ -4,6 +4,7 @@
  */
 package Model;
 
+import DAO.MysqlConnector;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -73,7 +74,7 @@ public class UtilisateurModel {
     }
 
     public static ArrayList<UtilisateurModel> getAllUtilisateur() throws SQLException {
-        String sql = "select * from utilisateur u";
+        String sql = "select * from UTILISATEUR u";
         var connection = MysqlConnector.getConnexion();
         Statement stmt = connection.createStatement();
         var result = stmt.executeQuery(sql);

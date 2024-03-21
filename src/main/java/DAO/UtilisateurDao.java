@@ -4,7 +4,6 @@
  */
 package DAO;
 
-import Model.MysqlConnector;
 import Model.UtilisateurModel;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -26,7 +25,7 @@ public class UtilisateurDao implements Dao<UtilisateurModel> {
             throw new SQLException("email existe deja en base de données");
         } else {
             // Préparer la requête avec possibilité de récupérer l'ID généré
-            String query = "INSERT INTO utilisateur (NOMUTILISATEUR, PRENOMUTILISATEUR, EMAILUTILISATEUR, ISADMIN, MDPUTILISATEUR) VALUES (?, ?, ?, ?, ?)";
+            String query = "INSERT INTO UTILISATEUR (NOMUTILISATEUR, PRENOMUTILISATEUR, EMAILUTILISATEUR, ISADMIN, MDPUTILISATEUR) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement stat = MysqlConnector.getConnexion().prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 
             // Définir les paramètres de la requête
@@ -69,7 +68,7 @@ public class UtilisateurDao implements Dao<UtilisateurModel> {
             throw new IllegalArgumentException("L'ID de l'utilisateur est obligatoire");
         }
 
-        String query = "DELETE FROM utilisateur WHERE IDUTILISATEUR = ?";
+        String query = "DELETE FROM UTILISATEUR WHERE IDUTILISATEUR = ?";
         try {
             PreparedStatement stat = MysqlConnector.getConnexion().prepareStatement(query);
 
@@ -92,7 +91,7 @@ public class UtilisateurDao implements Dao<UtilisateurModel> {
 
     @Override
     public ArrayList<UtilisateurModel> getAll() throws SQLException {
-        String query = "SELECT * FROM utilisateur";
+        String query = "SELECT * FROM UTILISATEUR";
         PreparedStatement stat = MysqlConnector.getConnexion().prepareStatement(query);
         ResultSet rs = stat.executeQuery();
 
@@ -120,7 +119,7 @@ public class UtilisateurDao implements Dao<UtilisateurModel> {
     }
 
     public UtilisateurModel get(int id) throws SQLException {
-        String query = "SELECT * FROM utilisateur WHERE IDUTILISATEUR = ?";
+        String query = "SELECT * FROM UTILISATEUR WHERE IDUTILISATEUR = ?";
         PreparedStatement stat = MysqlConnector.getConnexion().prepareStatement(query);
         stat.setLong(1, id);
 
@@ -149,7 +148,7 @@ public class UtilisateurDao implements Dao<UtilisateurModel> {
     }
 
     public boolean emailAlready(String email) throws SQLException {
-        String query = "SELECT COUNT(*) as nbEmail from utilisateur u WHERE u.EMAILUTILISATEUR  = ?;";
+        String query = "SELECT COUNT(*) as nbEmail from UTILISATEUR u WHERE u.EMAILUTILISATEUR  = ?;";
         PreparedStatement stat = MysqlConnector.getConnexion().prepareStatement(query);
         stat.setString(1, email);
         System.out.println(query);
@@ -168,7 +167,7 @@ public class UtilisateurDao implements Dao<UtilisateurModel> {
     }
 
     public int count() throws SQLException {
-        String query = "SELECT COUNT(*) FROM utilisateur";
+        String query = "SELECT COUNT(*) FROM UTILISATEUR";
         PreparedStatement stat = MysqlConnector.getConnexion().prepareStatement(query);
 
         ResultSet rs = stat.executeQuery();
