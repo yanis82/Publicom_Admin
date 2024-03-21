@@ -47,16 +47,14 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         PanelForm = new javax.swing.JPanel();
         PanelFormLeft = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
         PanelFormRight = new javax.swing.JPanel();
         tfPrenom = new javax.swing.JTextField();
         tfNom = new javax.swing.JTextField();
         tfMail = new javax.swing.JTextField();
         tfMotDePasse = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
+        btnEditUser = new javax.swing.JButton();
+        btnDelUser = new javax.swing.JButton();
         btnAddUser = new javax.swing.JButton();
         PanelTable = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -75,61 +73,134 @@ public class MainFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Publicom [Shizu est magnifique]");
+        setBackground(new java.awt.Color(0, 0, 0));
         getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.PAGE_AXIS));
 
         PanelForm.setLayout(new javax.swing.BoxLayout(PanelForm, javax.swing.BoxLayout.LINE_AXIS));
 
         PanelFormLeft.setLayout(new javax.swing.BoxLayout(PanelFormLeft, javax.swing.BoxLayout.PAGE_AXIS));
-
-        jLabel1.setText("prenom");
-        PanelFormLeft.add(jLabel1);
-
-        jLabel2.setText("nom");
-        PanelFormLeft.add(jLabel2);
-
-        jLabel6.setText("mail");
-        PanelFormLeft.add(jLabel6);
-
-        jLabel5.setText("mot de passe");
-        PanelFormLeft.add(jLabel5);
-
         PanelForm.add(PanelFormLeft);
 
+        PanelFormRight.setBackground(new java.awt.Color(51, 51, 51));
         PanelFormRight.setLayout(new javax.swing.BoxLayout(PanelFormRight, javax.swing.BoxLayout.PAGE_AXIS));
+
+        tfPrenom.setBackground(new java.awt.Color(51, 51, 51));
+        tfPrenom.setForeground(new java.awt.Color(204, 204, 204));
+        tfPrenom.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Prenom", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(204, 204, 204))); // NOI18N
         PanelFormRight.add(tfPrenom);
+
+        tfNom.setBackground(new java.awt.Color(51, 51, 51));
+        tfNom.setForeground(new java.awt.Color(204, 204, 204));
+        tfNom.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Nom", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(204, 204, 204))); // NOI18N
+        tfNom.setDisabledTextColor(new java.awt.Color(51, 51, 51));
         PanelFormRight.add(tfNom);
 
+        tfMail.setBackground(new java.awt.Color(51, 51, 51));
+        tfMail.setForeground(new java.awt.Color(204, 204, 204));
+        tfMail.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Adresse mail", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(204, 204, 204))); // NOI18N
         tfMail.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tfMailActionPerformed(evt);
             }
         });
         PanelFormRight.add(tfMail);
+
+        tfMotDePasse.setBackground(new java.awt.Color(51, 51, 51));
+        tfMotDePasse.setForeground(new java.awt.Color(204, 204, 204));
+        tfMotDePasse.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Mot de passe", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(204, 204, 204))); // NOI18N
         PanelFormRight.add(tfMotDePasse);
 
         PanelForm.add(PanelFormRight);
 
         getContentPane().add(PanelForm);
 
-        jPanel2.setLayout(new java.awt.CardLayout());
+        jPanel2.setBackground(new java.awt.Color(51, 51, 51));
+
+        btnEditUser.setText("Modifier");
+        btnEditUser.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnEditUserMouseClicked(evt);
+            }
+        });
+        btnEditUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditUserActionPerformed(evt);
+            }
+        });
+
+        btnDelUser.setText("Suprimer");
+        btnDelUser.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnDelUserMouseClicked(evt);
+            }
+        });
+        btnDelUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDelUserActionPerformed(evt);
+            }
+        });
 
         btnAddUser.setText("Ajouter");
+        btnAddUser.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnAddUserMouseClicked(evt);
+            }
+        });
         btnAddUser.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAddUserActionPerformed(evt);
             }
         });
-        jPanel2.add(btnAddUser, "card2");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btnAddUser, javax.swing.GroupLayout.DEFAULT_SIZE, 311, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnDelUser, javax.swing.GroupLayout.DEFAULT_SIZE, 311, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnEditUser, javax.swing.GroupLayout.DEFAULT_SIZE, 311, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnEditUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnAddUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnDelUser))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
         getContentPane().add(jPanel2);
 
-        PanelTable.setLayout(new java.awt.BorderLayout());
+        PanelTable.setBackground(new java.awt.Color(51, 51, 51));
 
+        TableUser.setForeground(new java.awt.Color(51, 51, 51));
         TableUser.setModel(this.tableModel);
         TableUser.setEnabled(false);
         jScrollPane1.setViewportView(TableUser);
 
-        PanelTable.add(jScrollPane1, java.awt.BorderLayout.CENTER);
+        javax.swing.GroupLayout PanelTableLayout = new javax.swing.GroupLayout(PanelTable);
+        PanelTable.setLayout(PanelTableLayout);
+        PanelTableLayout.setHorizontalGroup(
+            PanelTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelTableLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 945, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        PanelTableLayout.setVerticalGroup(
+            PanelTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelTableLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 440, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
         getContentPane().add(PanelTable);
 
@@ -140,10 +211,31 @@ public class MainFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_tfMailActionPerformed
 
+    private void btnEditUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEditUserMouseClicked
+        // TODO add your handling code here:
+        System.out.println("Edit");
+    }//GEN-LAST:event_btnEditUserMouseClicked
+
+    private void btnEditUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditUserActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnEditUserActionPerformed
+
+    private void btnDelUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDelUserMouseClicked
+        // TODO add your handling code here:
+        System.out.println("Del");
+    }//GEN-LAST:event_btnDelUserMouseClicked
+
+    private void btnDelUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDelUserActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnDelUserActionPerformed
+
+    private void btnAddUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddUserMouseClicked
+        // TODO add your handling code here:
+        System.out.println("Add");
+    }//GEN-LAST:event_btnAddUserMouseClicked
+
     private void btnAddUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddUserActionPerformed
-        System.out.println("action performed");
-        Object[] row = new Object[]{this.tfPrenom.getText(), this.tfNom.getText(), this.tfMail.getText(), this.tfMotDePasse.getText()};
-        this.tableModel.addRow(row);
+        // TODO add your handling code here:
     }//GEN-LAST:event_btnAddUserActionPerformed
 
     /**
@@ -187,10 +279,8 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JPanel PanelTable;
     private javax.swing.JTable TableUser;
     private javax.swing.JButton btnAddUser;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
+    private javax.swing.JButton btnDelUser;
+    private javax.swing.JButton btnEditUser;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
