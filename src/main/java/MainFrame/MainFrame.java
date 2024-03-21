@@ -118,7 +118,9 @@ public class MainFrame extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(51, 51, 51));
 
-        btnEditUser.setText("Modifier");
+        btnEditUser.setBackground(new java.awt.Color(102, 102, 102));
+        btnEditUser.setForeground(new java.awt.Color(204, 204, 204));
+        btnEditUser.setText("Edit");
         btnEditUser.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnEditUserMouseClicked(evt);
@@ -130,6 +132,8 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
+        btnDelUser.setBackground(new java.awt.Color(102, 102, 102));
+        btnDelUser.setForeground(new java.awt.Color(204, 204, 204));
         btnDelUser.setText("Suprimer");
         btnDelUser.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -142,7 +146,11 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
+        btnAddUser.setBackground(new java.awt.Color(102, 102, 102));
+        btnAddUser.setForeground(new java.awt.Color(204, 204, 204));
         btnAddUser.setText("Ajouter");
+        btnAddUser.setToolTipText("");
+        btnAddUser.setOpaque(true);
         btnAddUser.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnAddUserMouseClicked(evt);
