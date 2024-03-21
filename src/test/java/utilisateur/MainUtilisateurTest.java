@@ -57,7 +57,7 @@ public class MainUtilisateurTest {
 
     @Test
     public void testGetAllUtilisateur() throws SQLException {
-        assertDoesNotThrow(() -> UtilisateurModel.getAllUtilisateur());
+        assertDoesNotThrow(() -> UtilisateurDao.getAllUtilisateur());
     }
 
     @Test

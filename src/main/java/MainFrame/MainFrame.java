@@ -25,13 +25,11 @@ public class MainFrame extends javax.swing.JFrame {
     private Object[] tableColumns = new Object[]{"nom", "prenom", "mail", "mot de passe"};
     private Object[][] tableDatas = new Object[][]{};
     private DefaultTableModel tableModel = new DefaultTableModel(tableDatas, tableColumns);
-
-    ;
     
     public MainFrame() {
         initComponents();
         try {
-            var utilisateurs = UtilisateurModel.getAllUtilisateur();
+            var utilisateurs = UtilisateurDao.getAllUtilisateur();
         } catch (SQLException ex) {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
         }

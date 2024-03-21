@@ -30,12 +30,8 @@ public class UtilisateurModel {
     private String motDePasse;
 
     public UtilisateurModel(Integer id, String nom, String prenom, String email, Boolean isAdmin, String motDePasse) {
+        this(nom, prenom, email, isAdmin, motDePasse);
         this.id = id;
-        this.nom = nom;
-        this.prenom = prenom;
-        this.email = email;
-        this.isAdmin = isAdmin;
-        this.motDePasse = motDePasse;
     }
 
     public UtilisateurModel(String nom, String prenom, String email, Boolean isAdmin, String motDePasse) {
@@ -46,13 +42,13 @@ public class UtilisateurModel {
         this.motDePasse = motDePasse;
     }
 
-    public static void main(String[] args) {
-        // TODO code application logic here
-    }
-
     @Override
     public String toString() {
         return "UtilisateurModel{" + "id=" + id + ", nom=" + nom + ", prenom=" + prenom + ", email=" + email + ", isAdmin=" + isAdmin + ", motDePasse=" + motDePasse + "}\n";
+    }
+
+    static public String getTable() {
+        return "UTILISATEUR";
     }
 
     @Override
@@ -71,61 +67,6 @@ public class UtilisateurModel {
                 && Objects.equals(email, other.email)
                 && Objects.equals(isAdmin, other.isAdmin);
         // Exclude password from comparison for security reasons
-    }
-
-    public static ArrayList<UtilisateurModel> getAllUtilisateur() throws SQLException {
-        String sql = "select * from UTILISATEUR u";
-        var connection = MysqlConnector.getConnexion();
-        Statement stmt = connection.createStatement();
-        var result = stmt.executeQuery(sql);
-        ArrayList<UtilisateurModel> allUtilisateur = new ArrayList();
-
-        if (result.next()) {
-            var utilisateurList = new UtilisateurModel(result.getInt("IDUTILISATEUR"), result.getString("NOMUTILISATEUR"), result.getString("PRENOMUTILISATEUR"), result.getString("EMAILUTILISATEUR"), result.getBoolean("ISADMIN"), result.getString("MDPUTILISATEUR"));
-            allUtilisateur.add(utilisateurList);
-        }
-        return allUtilisateur;
-    }
-
-    public void synchronyze() {
-        this.emailAlreadyExistOnDb();
-    }
-
-    public void insertToDb() {
-        String query = String.format("insert into utilisateur (NOMUTILISATEUR, PRENOMUTILISATEUR, EMAILUTILISATEUR, ISADMIN, MDPUTILISATEUR) values\n"
-                + "(\"%s\", \"%s\", \"%s\", %d, \"%s\")", this.nom, this.prenom, this.email, this.isAdmin ? 1 : 0, this.motDePasse);
-        System.out.println(query);
-        try {
-            var stat = MysqlConnector.getConnexion().createStatement();
-            Boolean isSuccess = stat.execute(query);
-            System.out.println("isSuccess: " + isSuccess);
-            stat.close();
-        } catch (SQLException ex) {
-            Logger.getLogger(UtilisateurModel.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    public void emailAlreadyExistOnDb() {
-        String query = String.format("SELECT COUNT(*) as nbEmail from utilisateur u \n"
-                + "WHERE u.EMAILUTILISATEUR  = '%s';", this.email);
-        System.out.println(query);
-        try {
-            int nbEmail = 0;
-            Statement stat = MysqlConnector.getConnexion().createStatement();
-            ResultSet executedSelect = stat.executeQuery(query);
-            if (executedSelect.next()) {
-                nbEmail = executedSelect.getInt("nbEmail");
-            }
-            if (nbEmail <= 0) {
-                this.insertToDb();
-                System.out.println("uilisateur cree");
-            } else {
-                System.out.println("utilisateur existe deja");
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(UtilisateurModel.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
     }
 
     public Integer getId() {
