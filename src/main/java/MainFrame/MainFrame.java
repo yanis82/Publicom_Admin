@@ -79,6 +79,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Publicom [Shizu est magnifique]");
+        setBackground(new java.awt.Color(0, 0, 0));
         getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.PAGE_AXIS));
 
         PanelForm.setLayout(new javax.swing.BoxLayout(PanelForm, javax.swing.BoxLayout.LINE_AXIS));
@@ -86,16 +87,21 @@ public class MainFrame extends javax.swing.JFrame {
         PanelFormLeft.setLayout(new javax.swing.BoxLayout(PanelFormLeft, javax.swing.BoxLayout.PAGE_AXIS));
         PanelForm.add(PanelFormLeft);
 
+        PanelFormRight.setBackground(new java.awt.Color(51, 51, 51));
         PanelFormRight.setLayout(new javax.swing.BoxLayout(PanelFormRight, javax.swing.BoxLayout.PAGE_AXIS));
 
+        jLabel1.setBackground(new java.awt.Color(0, 0, 0));
+        jLabel1.setForeground(new java.awt.Color(204, 204, 204));
         jLabel1.setText("prenom");
         PanelFormRight.add(jLabel1);
         PanelFormRight.add(tfPrenom);
 
+        jLabel2.setForeground(new java.awt.Color(204, 204, 204));
         jLabel2.setText("nom");
         PanelFormRight.add(jLabel2);
         PanelFormRight.add(tfNom);
 
+        jLabel6.setForeground(new java.awt.Color(204, 204, 204));
         jLabel6.setText("mail");
         PanelFormRight.add(jLabel6);
 
@@ -106,6 +112,7 @@ public class MainFrame extends javax.swing.JFrame {
         });
         PanelFormRight.add(tfMail);
 
+        jLabel5.setForeground(new java.awt.Color(204, 204, 204));
         jLabel5.setText("mot de passe");
         PanelFormRight.add(jLabel5);
         PanelFormRight.add(tfMotDePasse);
@@ -113,6 +120,8 @@ public class MainFrame extends javax.swing.JFrame {
         PanelForm.add(PanelFormRight);
 
         getContentPane().add(PanelForm);
+
+        jPanel2.setBackground(new java.awt.Color(51, 51, 51));
 
         btnEditUser.setText("Edit");
         btnEditUser.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -176,6 +185,9 @@ public class MainFrame extends javax.swing.JFrame {
 
         getContentPane().add(jPanel2);
 
+        PanelTable.setBackground(new java.awt.Color(51, 51, 51));
+
+        TableUser.setForeground(new java.awt.Color(51, 51, 51));
         TableUser.setModel(this.tableModel);
         TableUser.setEnabled(false);
         jScrollPane1.setViewportView(TableUser);
