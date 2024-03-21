@@ -118,7 +118,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(51, 51, 51));
 
-        btnEditUser.setText("Edit");
+        btnEditUser.setText("Modifier");
         btnEditUser.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnEditUserMouseClicked(evt);
