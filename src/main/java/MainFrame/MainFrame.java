@@ -114,7 +114,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         getContentPane().add(PanelForm);
 
-        btnEditUser.setText("Ajouter");
+        btnEditUser.setText("Edit");
         btnEditUser.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnEditUserMouseClicked(evt);
@@ -208,6 +208,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void btnEditUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEditUserMouseClicked
         // TODO add your handling code here:
+        System.out.println("Edit");
     }//GEN-LAST:event_btnEditUserMouseClicked
 
     private void btnEditUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditUserActionPerformed
@@ -216,6 +217,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void btnDelUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDelUserMouseClicked
         // TODO add your handling code here:
+        System.out.println("Del");
     }//GEN-LAST:event_btnDelUserMouseClicked
 
     private void btnDelUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDelUserActionPerformed
@@ -224,6 +226,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void btnAddUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddUserMouseClicked
         // TODO add your handling code here:
+        System.out.println("Add");
     }//GEN-LAST:event_btnAddUserMouseClicked
 
     private void btnAddUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddUserActionPerformed
