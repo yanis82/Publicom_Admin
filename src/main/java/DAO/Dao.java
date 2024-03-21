@@ -12,8 +12,8 @@ import java.util.List;
  * @author 08luc
  */
 interface Dao<T> {
-    public abstract T create(T utilisateurModel) throws SQLException;
-    public abstract void delete(T utilisateurModel) throws SQLException;
-    public abstract void update(T utilisateurModel) throws SQLException;
+    public abstract T create(T model) throws SQLException;
+    public abstract void delete(T model) throws SQLException;
+    public abstract void update(T model) throws SQLException;
     public abstract List<T> getAll() throws SQLException;
 }

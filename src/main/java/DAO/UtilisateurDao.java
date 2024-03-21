@@ -25,7 +25,7 @@ public class UtilisateurDao implements Dao<UtilisateurModel> {
             throw new SQLException("email existe deja en base de données");
         } else {
             // Préparer la requête avec possibilité de récupérer l'ID généré
-            String query = "INSERT INTO UTILISATEUR (NOMUTILISATEUR, PRENOMUTILISATEUR, EMAILUTILISATEUR, ISADMIN, MDPUTILISATEUR) VALUES (?, ?, ?, ?, ?)";
+            String query = String.format("INSERT INTO %s (NOMUTILISATEUR, PRENOMUTILISATEUR, EMAILUTILISATEUR, ISADMIN, MDPUTILISATEUR) VALUES (?, ?, ?, ?, ?)", UtilisateurModel.getTable());
             PreparedStatement stat = MysqlConnector.getConnexion().prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 
             // Définir les paramètres de la requête
@@ -167,7 +167,7 @@ public class UtilisateurDao implements Dao<UtilisateurModel> {
     }
 
     public int count() throws SQLException {
-        String query = "SELECT COUNT(*) FROM UTILISATEUR";
+        String query = String.format("SELECT COUNT(*) FROM %s", UtilisateurModel.getTable());
         PreparedStatement stat = MysqlConnector.getConnexion().prepareStatement(query);
 
         ResultSet rs = stat.executeQuery();
@@ -181,4 +181,58 @@ public class UtilisateurDao implements Dao<UtilisateurModel> {
         stat.close();
         return count;
     }
+    
+    public static ArrayList<UtilisateurModel> getAllUtilisateur() throws SQLException {
+        String sql = String.format("select * from %s u", UtilisateurModel.getTable());
+        var connection = MysqlConnector.getConnexion();
+        Statement stmt = connection.createStatement();
+        var result = stmt.executeQuery(sql);
+        ArrayList<UtilisateurModel> allUtilisateur = new ArrayList();
+
+        if (result.next()) {
+            var utilisateurList = new UtilisateurModel(result.getInt("IDUTILISATEUR"), result.getString("NOMUTILISATEUR"), result.getString("PRENOMUTILISATEUR"), result.getString("EMAILUTILISATEUR"), result.getBoolean("ISADMIN"), result.getString("MDPUTILISATEUR"));
+            allUtilisateur.add(utilisateurList);
+        }
+        return allUtilisateur;
+    }
+
+    public void insertToDb(UtilisateurModel utilisateur) {
+        String query = String.format("insert into utilisateur (NOMUTILISATEUR, PRENOMUTILISATEUR, EMAILUTILISATEUR, ISADMIN, MDPUTILISATEUR) values\n"
+                + "(\"%s\", \"%s\", \"%s\", %d, \"%s\")", utilisateur.getNom(), utilisateur.getPrenom(), utilisateur.getEmail(), utilisateur.getIsAdmin() ? 1 : 0, utilisateur.getMotDePasse());
+        System.out.println(query);
+        try {
+            var stat = MysqlConnector.getConnexion().createStatement();
+            Boolean isSuccess = stat.execute(query);
+            System.out.println("isSuccess: " + isSuccess);
+            stat.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(UtilisateurModel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void emailAlreadyExistOnDb(UtilisateurModel utilisateur) {
+        String query = String.format("SELECT COUNT(*) as nbEmail from utilisateur u \n"
+                + "WHERE u.EMAILUTILISATEUR  = '%s';", utilisateur.getEmail());
+        System.out.println(query);
+        try {
+            int nbEmail = 0;
+            Statement stat = MysqlConnector.getConnexion().createStatement();
+            ResultSet executedSelect = stat.executeQuery(query);
+            if (executedSelect.next()) {
+                nbEmail = executedSelect.getInt("nbEmail");
+            }
+            if (nbEmail <= 0) {
+                this.insertToDb(utilisateur);
+                System.out.println("uilisateur cree");
+            } else {
+                System.out.println("utilisateur existe deja");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UtilisateurModel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+    
+    
+    
 }
