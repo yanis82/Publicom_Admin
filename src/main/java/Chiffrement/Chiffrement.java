@@ -10,7 +10,6 @@ package Chiffrement;
  */
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 public class Chiffrement {
 
