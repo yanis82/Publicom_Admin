@@ -56,6 +56,7 @@ public class MainFrame extends javax.swing.JFrame {
         btnEditUser = new javax.swing.JButton();
         btnDelUser = new javax.swing.JButton();
         btnAddUser = new javax.swing.JButton();
+        jLabFond = new javax.swing.JLabel();
         PanelTable = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         TableUser = new javax.swing.JTable();
@@ -166,11 +167,11 @@ public class MainFrame extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btnAddUser, javax.swing.GroupLayout.DEFAULT_SIZE, 311, Short.MAX_VALUE)
+                .addComponent(btnAddUser, javax.swing.GroupLayout.DEFAULT_SIZE, 459, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnDelUser, javax.swing.GroupLayout.DEFAULT_SIZE, 311, Short.MAX_VALUE)
+                .addComponent(btnDelUser, javax.swing.GroupLayout.DEFAULT_SIZE, 460, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnEditUser, javax.swing.GroupLayout.DEFAULT_SIZE, 311, Short.MAX_VALUE)
+                .addComponent(btnEditUser, javax.swing.GroupLayout.DEFAULT_SIZE, 460, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -186,6 +187,12 @@ public class MainFrame extends javax.swing.JFrame {
 
         getContentPane().add(jPanel2);
 
+        jLabFond.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Ressources/backjtable.jpg"))); // NOI18N
+        jLabFond.setOpaque(true);
+        jLabFond.setPreferredSize(new java.awt.Dimension(720, 630));
+        jLabFond.setRequestFocusEnabled(false);
+        getContentPane().add(jLabFond);
+
         PanelTable.setBackground(new java.awt.Color(51, 51, 51));
 
         TableUser.setForeground(new java.awt.Color(51, 51, 51));
@@ -199,7 +206,7 @@ public class MainFrame extends javax.swing.JFrame {
             PanelTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelTableLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 945, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1391, Short.MAX_VALUE)
                 .addContainerGap())
         );
         PanelTableLayout.setVerticalGroup(
@@ -289,6 +296,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton btnAddUser;
     private javax.swing.JButton btnDelUser;
     private javax.swing.JButton btnEditUser;
+    private javax.swing.JLabel jLabFond;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
