@@ -5,39 +5,35 @@
 package utilisateur;
 
 import DAO.MysqlConnector;
-import DAO.UtilisateurDao;
 import Model.UtilisateurModel;
-import java.sql.SQLException;
-import java.util.List;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
  *
- * @author 08luc
+ * @author L.sanchez
  */
-public class DaoTest {
-    
-    public DaoTest() {
+public class UtilsiateurModelTest {
+
+    public UtilsiateurModelTest() {
     }
-    
+
     @BeforeAll
     public static void setUpClass() {
     }
-    
+
     @AfterAll
     public static void tearDownClass() {
     }
-    
+
     @BeforeEach
     public void setUp() {
     }
-    
+
     @AfterEach
     public void tearDown() {
     }
@@ -53,15 +49,29 @@ public class DaoTest {
             var connexion = MysqlConnector.getConnexion();
         });
     }
-    
+
     @Test
-    public void testgetAll() throws SQLException {
-        UtilisateurModel utilisateurModel = new UtilisateurModel();
-        UtilisateurDao utilisateurDao = new UtilisateurDao(utilisateurModel);
-        List<UtilisateurModel> allUtilisateurs = utilisateurDao.getAll();
-        for(UtilisateurModel utilisateur : allUtilisateurs) {
-            System.out.println(utilisateur);
+    public void testUtilisateurModelCreation() {
+        UtilisateurModel utilisateur = new UtilisateurModel();
+        assertNotNull(utilisateur);
+        assertEquals("UTILISATEUR", utilisateur.getTable());
+    }
+
+    @Test
+    public void testUtilisateurModelSettersAndGetters() {
+        UtilisateurModel utilisateur = new UtilisateurModel();
+        utilisateur.set("NOMUTILISATEUR", "John Doe");
+        utilisateur.set("EMAILUTILISATEUR", "johndoe@example.com");
+
+        assertEquals("John Doe", utilisateur.get("NOMUTILISATEUR"));
+        assertEquals("johndoe@example.com", utilisateur.get("EMAILUTILISATEUR"));
+
+        // Test for an invalid column name
+        try {
+            utilisateur.set("UNKNOWN_COLUMN", "value");
+            fail("Expected IllegalArgumentException for unknown column");
+        } catch (IllegalArgumentException e) {
+            // Expected exception
         }
-        Assertions.assertTrue(true);
     }
 }

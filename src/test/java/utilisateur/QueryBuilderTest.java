@@ -4,26 +4,23 @@
  */
 package utilisateur;
 
-import DAO.MysqlConnector;
-import DAO.UtilisateurDao;
 import Model.UtilisateurModel;
 import java.sql.SQLException;
-import java.util.List;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import utils.QueryBuilder;
 
 /**
  *
  * @author 08luc
  */
-public class DaoTest {
+public class QueryBuilderTest {
     
-    public DaoTest() {
+    public QueryBuilderTest() {
     }
     
     @BeforeAll
@@ -48,20 +45,10 @@ public class DaoTest {
     // @Test
     // public void hello() {}
     @Test
-    public void testConnection() {
-        assertDoesNotThrow(() -> {
-            var connexion = MysqlConnector.getConnexion();
-        });
-    }
-    
-    @Test
-    public void testgetAll() throws SQLException {
-        UtilisateurModel utilisateurModel = new UtilisateurModel();
-        UtilisateurDao utilisateurDao = new UtilisateurDao(utilisateurModel);
-        List<UtilisateurModel> allUtilisateurs = utilisateurDao.getAll();
-        for(UtilisateurModel utilisateur : allUtilisateurs) {
-            System.out.println(utilisateur);
-        }
-        Assertions.assertTrue(true);
+    public void insertIntoTest () throws SQLException {
+        QueryBuilder queryBuilder = new QueryBuilder();
+        UtilisateurModel utilisateurModel = new UtilisateurModel("Sanchez", "Lucas", "lucas@mail.com", true, "##mot de passe fort##");
+        System.out.println("table: " + utilisateurModel.getTable());
+        assertDoesNotThrow(() -> queryBuilder.insertInto(utilisateurModel.getTable(), "'Sanchez'", "'Lucas'", "'lcuas@gmail.com'", "1", "'#mdpFort#'"));
     }
 }
