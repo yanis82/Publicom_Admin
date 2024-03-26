@@ -4,39 +4,42 @@
  */
 package Chiffrement;
 
+import java.util.Scanner;
+import java.util.regex.Pattern;
+import Chiffrement.VerifPassword;
+import org.mindrot.jbcrypt.BCrypt;
+
 /**
  *
  * @author s.morisset
  */
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-
 public class Chiffrement {
 
-    public static String Chiffrement(String motDePasse) throws NoSuchAlgorithmException {
-        // Keccak is not recommended for password hashing (educational purposes only)
-        MessageDigest md = MessageDigest.getInstance("Keccak-256");
+    private String motDePasse;
 
-        // Conversion du mot de passe en octets
-        byte[] bytesMotDePasse = motDePasse.getBytes();
-
-        // Calcul du hachage
-        byte[] bytesHache = md.digest(bytesMotDePasse);
-
-        // Conversion du hachage en hexadécimal
-        StringBuilder sb = new StringBuilder();
-        for (byte b : bytesHache) {
-            sb.append(String.format("%02x", b));
+    public Chiffrement() {
+        System.out.print("Entrez votre mot de passe : ");
+        Scanner scanner = new Scanner(System.in);
+        motDePasse = scanner.nextLine();
+        VerifPassword verif = new VerifPassword(motDePasse);
+        if (!verif.verifPassword()) {
+            throw new IllegalArgumentException("Le mot de passe doit contenir au moins 8 caractères");
         }
-
-        return sb.toString();
     }
 
-    public static void main(String[] args) throws NoSuchAlgorithmException {
-        String motDePasse = "votre_mot_de_passe";
-        String hachage = Chiffrement(motDePasse);
-
-        System.out.println("Mot de passe : " + motDePasse);
-        System.out.println("Hachage Keccak (non recommandé) : " + hachage);
+    public static String hash(String password) {
+        String salt = BCrypt.gensalt(12);
+        return BCrypt.hashpw(password, salt);
     }
+
+    public String getMotDePasse() {
+        return motDePasse;
+    }
+
+    public static void main(String[] args) {
+        Chiffrement demande = new Chiffrement();
+        System.out.println("Mot de passe saisi : " + demande.getMotDePasse());
+        System.out.println(Chiffrement.hash(demande.getMotDePasse()));
+    }
+
 }
