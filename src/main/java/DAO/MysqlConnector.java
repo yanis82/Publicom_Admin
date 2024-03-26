@@ -3,8 +3,6 @@ package DAO;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt
@@ -29,8 +27,9 @@ public class MysqlConnector {
     public static Connection getConnexion() throws SQLException {
         final String PASSWORD = "publicomDb";
         final String USER = "publicomAdmin";
+        final String HOST = "localhost";//"172.28.36.14";
         if (con == null) {
-            con = DriverManager.getConnection("jdbc:mysql://172.28.36.14:3306/publicom", USER, PASSWORD);
+            con = DriverManager.getConnection("jdbc:mysql://" + HOST + ":3306/publicom", USER, PASSWORD);
         }
         return con;
     }

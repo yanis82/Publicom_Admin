@@ -6,6 +6,7 @@ package MainFrame;
 
 import DAO.UtilisateurDao;
 import Model.UtilisateurModel;
+import Model.UtilisateurModel.TABLESENUM;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -28,8 +29,18 @@ public class MainFrame extends javax.swing.JFrame {
     
     public MainFrame() {
         initComponents();
+        UtilisateurModel utilisateurModel = new UtilisateurModel();
         try {
-            var utilisateurs = UtilisateurDao.getAllUtilisateur();
+            UtilisateurDao utilisateurDao = new UtilisateurDao(utilisateurModel);
+            var allUtilisateurs = utilisateurDao.getAll();
+            for(UtilisateurModel utilisateur : allUtilisateurs) {
+                String nom = UtilisateurModel.getColumnByEnum(TABLESENUM.NOM);
+                String prenom = UtilisateurModel.getColumnByEnum(TABLESENUM.PRENOM);
+                String mail = UtilisateurModel.getColumnByEnum(TABLESENUM.EMAIL);
+                String motDePasse = UtilisateurModel.getColumnByEnum(TABLESENUM.MDP);
+                
+                this.tableModel.addRow(new Object[] {utilisateur.get(nom), utilisateur.get(prenom), utilisateur.get(mail), utilisateur.get(motDePasse)});
+            }
         } catch (SQLException ex) {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -108,6 +119,11 @@ public class MainFrame extends javax.swing.JFrame {
         tfMotDePasse.setBackground(new java.awt.Color(51, 51, 51));
         tfMotDePasse.setForeground(new java.awt.Color(204, 204, 204));
         tfMotDePasse.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Mot de passe", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(204, 204, 204))); // NOI18N
+        tfMotDePasse.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tfMotDePasseActionPerformed(evt);
+            }
+        });
         PanelFormRight.add(tfMotDePasse);
 
         PanelForm.add(PanelFormRight);
@@ -245,8 +261,17 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAddUserMouseClicked
 
     private void btnAddUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddUserActionPerformed
-        // TODO add your handling code here:
+        String nom = this.tfNom.getText();
+        String prenom = this.tfPrenom.getText();
+        String mail = this.tfMail.getText();
+        String motDePasse = this.tfMotDePasse.getText();
+        
+        this.tableModel.addRow(new Object[] {nom, prenom, mail, motDePasse});
     }//GEN-LAST:event_btnAddUserActionPerformed
+
+    private void tfMotDePasseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfMotDePasseActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tfMotDePasseActionPerformed
 
     /**
      * @param args the command line arguments

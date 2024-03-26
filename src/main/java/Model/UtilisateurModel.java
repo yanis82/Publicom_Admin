@@ -4,120 +4,72 @@
  */
 package Model;
 
-import DAO.MysqlConnector;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Objects;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.Collections;
+import java.util.List;
+import utils.Column;
 
 /**
  *
  * @author 08luc
  */
-public class UtilisateurModel {
+public class UtilisateurModel extends Model {
 
-    /**
-     * @param args the command line arguments
-     */
-    private Integer id;
-    private String nom;
-    private String prenom;
-    private String email;
-    private Boolean isAdmin;
-    private String motDePasse;
+    private static final List<Column> columns;
 
-    public UtilisateurModel(Integer id, String nom, String prenom, String email, Boolean isAdmin, String motDePasse) {
-        this(nom, prenom, email, isAdmin, motDePasse);
-        this.id = id;
+    public static enum TABLESENUM {
+        ID,
+        NOM,
+        PRENOM,
+        EMAIL,
+        ISADMIN,
+        MDP
     }
 
-    public UtilisateurModel(String nom, String prenom, String email, Boolean isAdmin, String motDePasse) {
-        this.nom = nom;
-        this.prenom = prenom;
-        this.email = email;
-        this.isAdmin = isAdmin;
-        this.motDePasse = motDePasse;
+    public static String getColumnByEnum(TABLESENUM column) {
+        return switch (column) {
+            case ID ->
+                "IDUTILISATEUR";
+            case NOM ->
+                "NOMUTILISATEUR";
+            case PRENOM ->
+                "PRENOMUTILISATEUR";
+            case EMAIL ->
+                "EMAILUTILISATEUR";
+            case ISADMIN ->
+                "ISADMIN";
+            case MDP ->
+                "MDPUTILISATEUR";
+        };
     }
 
-    @Override
-    public String toString() {
-        return "UtilisateurModel{" + "id=" + id + ", nom=" + nom + ", prenom=" + prenom + ", email=" + email + ", isAdmin=" + isAdmin + ", motDePasse=" + motDePasse + "}\n";
+    static {
+        List<Column> cols = new ArrayList<>();
+        cols.add(Column.ofInteger(getColumnByEnum(TABLESENUM.ID))); // Use Columns class for type safety
+        cols.add(Column.ofString(getColumnByEnum(TABLESENUM.NOM))); // Specify char length for string columns
+        cols.add(Column.ofString(getColumnByEnum(TABLESENUM.PRENOM)));
+        cols.add(Column.ofString(getColumnByEnum(TABLESENUM.EMAIL)));
+        cols.add(Column.ofInteger(getColumnByEnum(TABLESENUM.ISADMIN)));
+        cols.add(Column.ofString(getColumnByEnum(TABLESENUM.MDP)));
+        columns = Collections.unmodifiableList(cols);
     }
 
-    static public String getTable() {
-        return "UTILISATEUR";
+    public UtilisateurModel() {
+        super("UTILISATEUR", columns); // Set table name
     }
 
-    @Override
-    public boolean equals(Object utilisateur) {
-        if (this == utilisateur) {
-            return true; // Reflexivity: an object is always equal to itself
-        }
-        if (utilisateur == null || getClass() != utilisateur.getClass()) {
-            return false; // Objects of different classes or null are not equal
-        }
-        UtilisateurModel other = (UtilisateurModel) utilisateur;
-        // Compare significant fields for equality:
-        return Objects.equals(id, other.id)
-                && Objects.equals(nom, other.nom)
-                && Objects.equals(prenom, other.prenom)
-                && Objects.equals(email, other.email)
-                && Objects.equals(isAdmin, other.isAdmin);
-        // Exclude password from comparison for security reasons
+    public UtilisateurModel(String nom, String prenom, String email, boolean isAdmin, String password) {
+        this();
+        super.set("NOMUTILISATEUR", nom);
+        super.set("PRENOMUTILISATEUR", prenom);
+        super.set("EMAILUTILISATEUR", email);
+        super.set("ISADMIN", isAdmin ? 1 : 0);
+        super.set("MDPUTILISATEUR", password);
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public String getNom() {
-        return nom;
-    }
-
-    public String getPrenom() {
-        return prenom;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public Boolean getIsAdmin() {
-        return isAdmin;
-    }
-
-    public String getMotDePasse() {
-        return motDePasse;
-    }
-
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
-
-    public void setPrenom(String prenom) {
-        this.prenom = prenom;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public void setIsAdmin(Boolean isAdmin) {
-        this.isAdmin = isAdmin;
-    }
-
-    public void setMotDePasse(String motDePasse) {
-        this.motDePasse = motDePasse;
-    }
-
-    public void addId(Integer id) throws Exception {
-        if (this.id == null) {
-            this.id = id;
-        } else {
-            throw new Exception("utilisateur a déjà un identifiant");
-        }
-    }
+    // Add getter and setter methods for each field (optional)
+    // Example getter
+//    public int getIdUtilisateur() {
+//        UtilisateurModel.columns
+//    }
 }
