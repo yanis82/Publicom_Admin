@@ -56,7 +56,6 @@ public class MainFrame extends javax.swing.JFrame {
         btnEditUser = new javax.swing.JButton();
         btnDelUser = new javax.swing.JButton();
         btnAddUser = new javax.swing.JButton();
-        jLabFond = new javax.swing.JLabel();
         PanelTable = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         TableUser = new javax.swing.JTable();
@@ -187,12 +186,6 @@ public class MainFrame extends javax.swing.JFrame {
 
         getContentPane().add(jPanel2);
 
-        jLabFond.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Ressources/backjtable.jpg"))); // NOI18N
-        jLabFond.setOpaque(true);
-        jLabFond.setPreferredSize(new java.awt.Dimension(720, 630));
-        jLabFond.setRequestFocusEnabled(false);
-        getContentPane().add(jLabFond);
-
         PanelTable.setBackground(new java.awt.Color(51, 51, 51));
 
         TableUser.setForeground(new java.awt.Color(51, 51, 51));
@@ -246,7 +239,9 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void btnAddUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddUserMouseClicked
         // TODO add your handling code here:
-        System.out.println("Add");
+        System.out.println("Add: "+ this.tfMotDePasse.getText());
+        this.tfMotDePasse.getText();
+        
     }//GEN-LAST:event_btnAddUserMouseClicked
 
     private void btnAddUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddUserActionPerformed
@@ -296,7 +291,6 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton btnAddUser;
     private javax.swing.JButton btnDelUser;
     private javax.swing.JButton btnEditUser;
-    private javax.swing.JLabel jLabFond;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
