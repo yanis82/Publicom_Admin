@@ -60,11 +60,25 @@ public class UtilisateurModel extends Model {
 
     public UtilisateurModel(String nom, String prenom, String email, boolean isAdmin, String password) {
         this();
-        super.set("NOMUTILISATEUR", nom);
-        super.set("PRENOMUTILISATEUR", prenom);
-        super.set("EMAILUTILISATEUR", email);
-        super.set("ISADMIN", isAdmin ? 1 : 0);
-        super.set("MDPUTILISATEUR", password);
+        super.set(getColumnByEnum(TABLESENUM.NOM), nom);
+        super.set(getColumnByEnum(TABLESENUM.PRENOM), prenom);
+        super.set(getColumnByEnum(TABLESENUM.EMAIL), email);
+        super.set(getColumnByEnum(TABLESENUM.ISADMIN), isAdmin ? 1 : 0);
+        super.set(getColumnByEnum(TABLESENUM.MDP), password);
+    }
+    
+    public List<Object> getValues (){
+        ArrayList<Object> values = new ArrayList<>();
+        values.add(super.get(getColumnByEnum(TABLESENUM.NOM)));
+        values.add(super.get(getColumnByEnum(TABLESENUM.PRENOM)));
+        values.add(super.get(getColumnByEnum(TABLESENUM.EMAIL)));
+        values.add(super.get(getColumnByEnum(TABLESENUM.ISADMIN)));
+        values.add(super.get(getColumnByEnum(TABLESENUM.MDP)));
+        return values;
+    }
+    
+    public void setId(int id) {
+        super.set(getColumnByEnum(TABLESENUM.ID), id);
     }
 
     // Add getter and setter methods for each field (optional)

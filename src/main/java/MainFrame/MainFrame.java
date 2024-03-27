@@ -10,7 +10,6 @@ import Model.UtilisateurModel.TABLESENUM;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -21,11 +20,11 @@ public class MainFrame extends javax.swing.JFrame {
     /**
      * Creates new form MainFrame
      */
-    private DefaultTableModel userTableModel;
-
+    private TableModelUtilisateur userTableModel;
+    
     private Object[] tableColumns = new Object[]{"nom", "prenom", "mail", "mot de passe"};
     private Object[][] tableDatas = new Object[][]{};
-    private DefaultTableModel tableModel = new DefaultTableModel(tableDatas, tableColumns);
+    private TableModelUtilisateur tableModel = new TableModelUtilisateur();
     
     public MainFrame() {
         initComponents();
@@ -33,13 +32,13 @@ public class MainFrame extends javax.swing.JFrame {
         try {
             UtilisateurDao utilisateurDao = new UtilisateurDao(utilisateurModel);
             var allUtilisateurs = utilisateurDao.getAll();
-            for(UtilisateurModel utilisateur : allUtilisateurs) {
+            for (UtilisateurModel utilisateur : allUtilisateurs) {
                 String nom = UtilisateurModel.getColumnByEnum(TABLESENUM.NOM);
                 String prenom = UtilisateurModel.getColumnByEnum(TABLESENUM.PRENOM);
                 String mail = UtilisateurModel.getColumnByEnum(TABLESENUM.EMAIL);
                 String motDePasse = UtilisateurModel.getColumnByEnum(TABLESENUM.MDP);
                 
-                this.tableModel.addRow(new Object[] {utilisateur.get(nom), utilisateur.get(prenom), utilisateur.get(mail), utilisateur.get(motDePasse)});
+                this.tableModel.addUtilisateur(utilisateur);
             }
         } catch (SQLException ex) {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
@@ -255,7 +254,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void btnAddUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddUserMouseClicked
         // TODO add your handling code here:
-        System.out.println("Add: "+ this.tfMotDePasse.getText());
+        System.out.println("Add: " + this.tfMotDePasse.getText());
         this.tfMotDePasse.getText();
         
     }//GEN-LAST:event_btnAddUserMouseClicked
@@ -265,8 +264,15 @@ public class MainFrame extends javax.swing.JFrame {
         String prenom = this.tfPrenom.getText();
         String mail = this.tfMail.getText();
         String motDePasse = this.tfMotDePasse.getText();
-        
-        this.tableModel.addRow(new Object[] {nom, prenom, mail, motDePasse});
+        UtilisateurModel utilisateur = new UtilisateurModel(nom, prenom, mail, false, prenom);
+        UtilisateurDao utilisateurDao;
+        try {
+            utilisateurDao = new UtilisateurDao(utilisateur);
+            UtilisateurModel createdUtilisateur = utilisateurDao.insert(utilisateur);
+            this.tableModel.addUtilisateur(utilisateur);
+        } catch (SQLException ex) {
+            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnAddUserActionPerformed
 
     private void tfMotDePasseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfMotDePasseActionPerformed
@@ -277,10 +283,14 @@ public class MainFrame extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
+        /*
+         * Set the Nimbus look and feel
+         */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+        /*
+         * If Nimbus (introduced in Java SE 6) is not available, stay with the
+         * default look and feel. For details see
+         * http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -299,7 +309,9 @@ public class MainFrame extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        /* Create and display the form */
+        /*
+         * Create and display the form
+         */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new MainFrame().setVisible(true);

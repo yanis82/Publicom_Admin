@@ -38,9 +38,9 @@ public abstract class Model {
         return Collections.unmodifiableList(columns);
     }
     
-    public String[] getColumnsStr() {
+    public List<String> getColumnsStr() {
         List<String> maliste = columns.stream().map((column) -> column.getName()).collect(Collectors.toList());
-        return (String[]) maliste.toArray();
+        return maliste;
     }
 
     public void set(String columnName, Object value) {
@@ -56,6 +56,11 @@ public abstract class Model {
         }
         return row.get(columnName);
     }
+    
+    
+    
+    public abstract List<Object> getValues ();
+    public abstract void setId(int id);
 
     @Override
     public String toString() {

@@ -12,6 +12,7 @@ import DAO.MysqlConnector;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import utils.enums.Operator;
@@ -41,6 +42,7 @@ public class QueryBuilder {
         this.whereList = new ArrayList<>();
         this.connection = MysqlConnector.getConnexion();
     }
+
     public QueryBuilder select(Column... column) {
         String[] selectArray = new String[column.length];
         for (int i = 0; i < column.length; i++) {
@@ -49,8 +51,6 @@ public class QueryBuilder {
         this.selectStr = String.join(", ", selectArray);
         return this;
     }
-    
-    
 
     public QueryBuilder from(String from) {
         this.fromStr = from;
@@ -128,25 +128,35 @@ public class QueryBuilder {
         return query;
     }
 
-    public int insertInto(String table, String... columns) throws SQLException {
-        String insertSql = String.format("INSERT INTO %s (%s) VALUES (", table, String.join(",", columns));
-        List<Object> values = new ArrayList<>();
-        for (int i = 0; i < columns.length; i++) {
-            insertSql += "?";
-            if (i < columns.length - 1) {
-                insertSql += ",";
+    public int insertInto(String table, List<String> columns, List<?> values) throws SQLException, IllegalArgumentException {
+        if (columns.size() == values.size()) {
+            String insertSql = String.format("INSERT INTO %s (%s) VALUES (", table, String.join(", ", columns));
+            for (int i = 0; i < columns.size(); i++) {
+                insertSql += "?";
+                if (i < columns.size() - 1) {
+                    insertSql += ",";
+                }
             }
-        }
-        insertSql += ")";
+            insertSql += ");";
 
-        PreparedStatement statement = connection.prepareStatement(insertSql);
-        for (int i = 0; i < values.size(); i++) {
-            statement.setObject(i + 1, values.get(i));
-        }
+            PreparedStatement statement = connection.prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS);
+            for (int i = 0; i < values.size(); i++) {
+                statement.setObject(i + 1, values.get(i));
+            }
 
-        int rowsAffected = statement.executeUpdate();
-        statement.close();
-        return rowsAffected;
+            statement.executeUpdate();
+            int generatedId = -1;
+            var generatedKeysResultSet = statement.getGeneratedKeys();
+            if (generatedKeysResultSet.next()) {
+                generatedId = generatedKeysResultSet.getInt(1); // Assuming ID is Long
+            } else {
+                throw new SQLException("Failed to retrieve generated key");
+            }
+            statement.close();
+            return generatedId;
+        } else {
+            throw new IllegalArgumentException("il doit y avoir autant de columns que de values : \ncolumns : \n" + columns + "\nvalues" + values);
+        }
     }
 
     public int update(String table, String... updateColumns) throws SQLException {

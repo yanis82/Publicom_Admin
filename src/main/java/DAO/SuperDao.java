@@ -22,11 +22,12 @@ public abstract class SuperDao<T extends Model> {
 
     protected T model;
     private Connection connection;
+    private QueryBuilder queryBuilder;
 
     protected SuperDao(T model) throws SQLException {
         this.connection = MysqlConnector.getConnexion();
         this.model = model;
-
+        this.queryBuilder = new QueryBuilder();
     }
 
     public Connection getConnection() {
@@ -34,7 +35,6 @@ public abstract class SuperDao<T extends Model> {
     }
 
     public List<T> getAll() throws SQLException {
-        QueryBuilder queryBuilder = new QueryBuilder();
         var rawColumns = this.model.getColumns();
         Column[] columnsArray = new Column[rawColumns.size()];
         int j = 0;
@@ -43,7 +43,7 @@ public abstract class SuperDao<T extends Model> {
                 columnsArray[j++] = rawColumns.get(i);
             }
         }
-        String getAllQuery = queryBuilder
+        String getAllQuery = this.queryBuilder
                 .select(columnsArray)
                 .from(this.model.getTable())
                 .getQuery();
@@ -68,8 +68,12 @@ public abstract class SuperDao<T extends Model> {
         return listModels;
     }
 
-    public void insert(T model) {
-        System.out.println("insert");
+    public T insert(T model) throws SQLException {
+        List<String> columns = model.getColumnsStr().subList(1, model.getColumnsStr().size());;
+        List<Object> values = model.getValues();
+        int generatedId = this.queryBuilder.insertInto(model.getTable(), columns, values);
+        model.setId(generatedId);
+        return model;
     }
 
     public void delete(T model) throws SQLException {

@@ -13,9 +13,11 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import utils.QueryBuilder;
 
 /**
  *
@@ -64,4 +66,17 @@ public class DaoTest {
         }
         Assertions.assertTrue(true);
     }
+    @Test
+    public void QueryBuilderInsertTest() throws SQLException {
+        QueryBuilder queryBuilder = new QueryBuilder();
+        UtilisateurModel utilisateur = new UtilisateurModel("Sanchez", "Jose", "jojo@gmail.com", true, "JOJODU82");
+        List<String> columns = utilisateur.getColumnsStr().subList(1, utilisateur.getColumnsStr().size());
+        List<Object> values = utilisateur.getValues();
+        System.out.println("values : " + values);
+        System.out.println("columns : " + columns);
+        int rowAffected = queryBuilder.insertInto(utilisateur.getTable(), columns, values);
+        System.out.println("rowAffected : "+ rowAffected);
+        assertTrue(true);
+    }
+    
 }

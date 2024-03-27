@@ -62,4 +62,6 @@ public class QueryBuilderTest {
         System.out.println(query);
         assertTrue(true);
     }
+    
+    
 }
