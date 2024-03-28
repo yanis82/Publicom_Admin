@@ -4,12 +4,15 @@
  */
 package MainFrame;
 
+import DAO.ChiffrementDao;
 import DAO.UtilisateurDao;
+import DAO.MotDePasseIncorrectException;
 import Model.UtilisateurModel;
 import Model.UtilisateurModel.TABLESENUM;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -21,11 +24,11 @@ public class MainFrame extends javax.swing.JFrame {
      * Creates new form MainFrame
      */
     private TableModelUtilisateur userTableModel;
-    
+
     private Object[] tableColumns = new Object[]{"nom", "prenom", "mail", "mot de passe"};
     private Object[][] tableDatas = new Object[][]{};
     private TableModelUtilisateur tableModel = new TableModelUtilisateur();
-    
+
     public MainFrame() {
         initComponents();
         UtilisateurModel utilisateurModel = new UtilisateurModel();
@@ -37,7 +40,7 @@ public class MainFrame extends javax.swing.JFrame {
                 String prenom = UtilisateurModel.getColumnByEnum(TABLESENUM.PRENOM);
                 String mail = UtilisateurModel.getColumnByEnum(TABLESENUM.EMAIL);
                 String motDePasse = UtilisateurModel.getColumnByEnum(TABLESENUM.MDP);
-                
+
                 this.tableModel.addUtilisateur(utilisateur);
             }
         } catch (SQLException ex) {
@@ -256,7 +259,7 @@ public class MainFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         System.out.println("Add: " + this.tfMotDePasse.getText());
         this.tfMotDePasse.getText();
-        
+
     }//GEN-LAST:event_btnAddUserMouseClicked
 
     private void btnAddUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddUserActionPerformed
@@ -264,15 +267,50 @@ public class MainFrame extends javax.swing.JFrame {
         String prenom = this.tfPrenom.getText();
         String mail = this.tfMail.getText();
         String motDePasse = this.tfMotDePasse.getText();
-        UtilisateurModel utilisateur = new UtilisateurModel(nom, prenom, mail, false, motDePasse);
-        UtilisateurDao utilisateurDao;
+        ChiffrementDao chiffrement = new ChiffrementDao();
+
         try {
-            utilisateurDao = new UtilisateurDao(utilisateur);
-            UtilisateurModel createdUtilisateur = utilisateurDao.insert(utilisateur);
-            this.tableModel.addUtilisateur(utilisateur);
-        } catch (SQLException ex) {
-            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+            if (chiffrement.checkPassword(motDePasse)) {
+                throw new MotDePasseIncorrectException("Le mot de passe ne respecte pas les normes de sécurité.");
+            }
+            String password = chiffrement.hash(motDePasse);
+            UtilisateurModel utilisateur = new UtilisateurModel(nom, prenom, mail, false, password);
+            UtilisateurDao utilisateurDao;
+            try {
+                utilisateurDao = new UtilisateurDao(utilisateur);
+                UtilisateurModel createdUtilisateur = utilisateurDao.insert(utilisateur);
+                this.tableModel.addUtilisateur(utilisateur);
+            } catch (SQLException ex) {
+                Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        } catch (MotDePasseIncorrectException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
         }
+        
+        
+        
+/*
+         try {
+            // Vérifier si le mot de passe respecte les normes
+            if (!ChiffrementDao.checkPassword(motDePasse)) {
+                throw new MotDePasseIncorrectException("Le mot de passe ne respecte pas les normes de sécurité.");
+            }
+
+            // Chiffrer le mot de passe
+            String motDePasseChiffre = ChiffrementDao.chiffrer(motDePasse);
+
+            // Créer et insérer l'utilisateur
+            UtilisateurModel utilisateur = new UtilisateurModel(nom, prenom, mail, false, motDePasseChiffre);
+            UtilisateurDao utilisateurDao = new UtilisateurDao(utilisateur);
+            utilisateurDao.insert(utilisateur);
+
+            // Afficher un message de succès
+            JOptionPane.showMessageDialog(null, "Utilisateur créé avec succès !", "Succès", JOptionPane.INFORMATION_MESSAGE);
+
+        
+*/
+
     }//GEN-LAST:event_btnAddUserActionPerformed
 
     private void tfMotDePasseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfMotDePasseActionPerformed
