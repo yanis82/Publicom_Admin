@@ -264,7 +264,7 @@ public class MainFrame extends javax.swing.JFrame {
         String prenom = this.tfPrenom.getText();
         String mail = this.tfMail.getText();
         String motDePasse = this.tfMotDePasse.getText();
-        UtilisateurModel utilisateur = new UtilisateurModel(nom, prenom, mail, false, prenom);
+        UtilisateurModel utilisateur = new UtilisateurModel(nom, prenom, mail, false, motDePasse);
         UtilisateurDao utilisateurDao;
         try {
             utilisateurDao = new UtilisateurDao(utilisateur);
