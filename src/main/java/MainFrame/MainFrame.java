@@ -270,7 +270,7 @@ public class MainFrame extends javax.swing.JFrame {
         ChiffrementDao chiffrement = new ChiffrementDao();
 
         try {
-            if (chiffrement.checkPassword(motDePasse)) {
+            if (!chiffrement.checkPassword(motDePasse)) {
                 throw new MotDePasseIncorrectException("Le mot de passe ne respecte pas les normes de sécurité.");
             }
             String password = chiffrement.hash(motDePasse);
