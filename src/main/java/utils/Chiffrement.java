@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package DAO;
+package utils;
 
 import java.util.regex.Pattern;
 import org.mindrot.jbcrypt.BCrypt;
@@ -11,9 +11,9 @@ import org.mindrot.jbcrypt.BCrypt;
  *
  * @author s.morisset
  */
-public class ChiffrementDao {
+public class Chiffrement {
 
-    public ChiffrementDao() {
+    public Chiffrement() {
 
     }
 

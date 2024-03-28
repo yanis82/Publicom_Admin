@@ -4,9 +4,9 @@
  */
 package MainFrame;
 
-import DAO.ChiffrementDao;
+import utils.Chiffrement;
 import DAO.UtilisateurDao;
-import DAO.MotDePasseIncorrectException;
+import utils.MotDePasseIncorrectException;
 import Model.UtilisateurModel;
 import Model.UtilisateurModel.TABLESENUM;
 import java.sql.SQLException;
@@ -267,7 +267,7 @@ public class MainFrame extends javax.swing.JFrame {
         String prenom = this.tfPrenom.getText();
         String mail = this.tfMail.getText();
         String motDePasse = this.tfMotDePasse.getText();
-        ChiffrementDao chiffrement = new ChiffrementDao();
+        Chiffrement chiffrement = new Chiffrement();
 
         try {
             if (!chiffrement.checkPassword(motDePasse)) {
