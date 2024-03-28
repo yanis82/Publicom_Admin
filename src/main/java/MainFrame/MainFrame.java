@@ -208,7 +208,6 @@ public class MainFrame extends javax.swing.JFrame {
 
         TableUser.setForeground(new java.awt.Color(51, 51, 51));
         TableUser.setModel(this.tableModel);
-        TableUser.setEnabled(false);
         jScrollPane1.setViewportView(TableUser);
 
         javax.swing.GroupLayout PanelTableLayout = new javax.swing.GroupLayout(PanelTable);
