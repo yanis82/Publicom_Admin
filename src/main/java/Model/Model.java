@@ -43,18 +43,18 @@ public abstract class Model {
         return maliste;
     }
 
-    public void set(String columnName, Object value) {
-        if (!row.containsKey(columnName)) {
+    public void set(String columnName, Object value) throws IllegalArgumentException{
+        if (!this.row.containsKey(columnName)) {
             throw new IllegalArgumentException("Column " + columnName + " not found in model");
         }
-        row.put(columnName, value);
+        this.row.put(columnName, value);
     }
 
-    public Object get(String columnName) {
-        if (!row.containsKey(columnName)) {
+    public Object get(String columnName) throws IllegalArgumentException{
+        if (!this.row.containsKey(columnName)) {
             throw new IllegalArgumentException("Column " + columnName + " not found in model");
         }
-        return row.get(columnName);
+        return this.row.get(columnName);
     }
     
     
@@ -64,6 +64,6 @@ public abstract class Model {
 
     @Override
     public String toString() {
-        return row.toString(); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+        return this.row.toString(); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
     }
 }

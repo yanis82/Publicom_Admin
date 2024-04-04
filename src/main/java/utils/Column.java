@@ -34,7 +34,7 @@ public class Column {
         return Column.of(name, String.class);
     }
 
-    public static Column ofInteger(String name) {
+    public static Column ofInt(String name) {
         return Column.of(name, int.class);
     }
 }

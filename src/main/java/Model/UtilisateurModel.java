@@ -45,11 +45,11 @@ public class UtilisateurModel extends Model {
 
     static {
         List<Column> cols = new ArrayList<>();
-        cols.add(Column.ofInteger(getColumnByEnum(TABLESENUM.ID))); // Use Columns class for type safety
+        cols.add(Column.ofInt(getColumnByEnum(TABLESENUM.ID))); // Use Columns class for type safety
         cols.add(Column.ofString(getColumnByEnum(TABLESENUM.NOM))); // Specify char length for string columns
         cols.add(Column.ofString(getColumnByEnum(TABLESENUM.PRENOM)));
         cols.add(Column.ofString(getColumnByEnum(TABLESENUM.EMAIL)));
-        cols.add(Column.ofInteger(getColumnByEnum(TABLESENUM.ISADMIN)));
+        cols.add(Column.ofInt(getColumnByEnum(TABLESENUM.ISADMIN)));
         cols.add(Column.ofString(getColumnByEnum(TABLESENUM.MDP)));
         columns = Collections.unmodifiableList(cols);
     }

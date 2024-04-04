@@ -159,7 +159,7 @@ public class QueryBuilder {
         }
     }
 
-    public int update(String table, String... updateColumns) throws SQLException {
+    public String update(String table, String... updateColumns) throws SQLException {
         String updateSql = String.format("UPDATE %s SET ", table);
         List<Object> values = new ArrayList<>();
         for (int i = 0; i < updateColumns.length; i++) {
@@ -186,18 +186,7 @@ public class QueryBuilder {
             updateSql += String.format("%s%s %s %s", andClause, instance.getKey(), instance.getOperator(), value);
         }
 
-        PreparedStatement statement = connection.prepareStatement(updateSql);
-        int valueIndex = 1;
-        for (int i = 0; i < updateColumns.length; i++) {
-            statement.setObject(valueIndex++, values.get(i));
-        }
-        for (WhereClause clause : whereList) {
-            statement.setObject(valueIndex++, clause.getValue());
-        }
-
-        int rowsAffected = statement.executeUpdate();
-        statement.close();
-        return rowsAffected;
+        return updateSql;
     }
 
     public int deleteFrom(String table) throws SQLException {

@@ -1,9 +1,13 @@
 package MainFrame;
 
+import DAO.UtilisateurDao;
 import Model.UtilisateurModel;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.AbstractTableModel;
 
 /*
@@ -54,11 +58,41 @@ public class TableModelUtilisateur extends AbstractTableModel {
         UtilisateurModel user = this.utilisateurs.get(rowIndex);
         return user.get(columnNames.get(columnIndex));
     }
-
+    
+    @Override
+    public boolean isCellEditable(int rowIndex, int columnIndex) {
+        return true;
+    }
+    
+    @Override
+    public void fireTableCellUpdated(int row, int column) {
+        super.fireTableCellUpdated(row, column);
+        
+        UtilisateurModel utilisateur = utilisateurs.get(row);
+        try {
+            UtilisateurDao utilisateurDao = new UtilisateurDao(utilisateur);
+            utilisateurDao.update(utilisateur);
+        } catch (SQLException ex) {
+            Logger.getLogger(TableModelUtilisateur.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("MAKE OBSERVER FOR PRINT ERROR ON TOAST OR DIALOG");
+            //TODO: MAKE OBSERVER
+        }
+    }
+    
+    @Override
+    public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
+        UtilisateurModel user = this.utilisateurs.get(rowIndex);
+        String columnName = user.getColumns().get(columnIndex).getName();
+        user.set(columnName, aValue);
+        fireTableCellUpdated(rowIndex, columnIndex);
+    }
+    
     public void addUtilisateur(UtilisateurModel user) {
         this.utilisateurs.add(user);
         fireTableDataChanged(); // Notifies JTable of utilisateurs change
     }
+    
+    
 
     public List<UtilisateurModel> getData() {
         return Collections.unmodifiableList(this.utilisateurs); // Return unmodifiable list to prevent external modification

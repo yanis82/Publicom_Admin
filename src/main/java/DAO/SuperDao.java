@@ -80,9 +80,7 @@ public abstract class SuperDao<T extends Model> {
         System.out.println("delete");
     }
 
-    public void update(T model) throws SQLException {
-        System.out.println("update");
-    }
+    abstract public void update(T model) throws SQLException ;
 
     public T get() {
         System.out.println("get");
