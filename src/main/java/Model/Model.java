@@ -61,6 +61,7 @@ public abstract class Model {
     
     public abstract List<Object> getValues ();
     public abstract void setId(int id);
+    abstract public int getId();
 
     @Override
     public String toString() {

@@ -189,7 +189,7 @@ public class QueryBuilder {
         return updateSql;
     }
 
-    public int deleteFrom(String table) throws SQLException {
+    public String deleteFrom(String table) throws SQLException {
         String deleteSql = String.format("DELETE FROM %s", table);
 
         if (!whereList.isEmpty()) {
@@ -205,11 +205,7 @@ public class QueryBuilder {
                 }
                 deleteSql += String.format("%s%s %s %s", andClause, instance.getKey(), instance.getOperator(), value);
             }
-        }
-
-        PreparedStatement statement = connection.prepareStatement(deleteSql);
-        int rowsAffected = statement.executeUpdate();
-        statement.close();
-        return rowsAffected;
+            return deleteSql + ";";
+        }else throw new IllegalArgumentException("Il doit y avoir une clause where pour utiliser delete");
     }
 }

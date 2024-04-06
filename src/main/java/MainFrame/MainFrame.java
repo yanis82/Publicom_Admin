@@ -4,15 +4,15 @@
  */
 package MainFrame;
 
-import utils.Chiffrement;
 import DAO.UtilisateurDao;
-import utils.MotDePasseIncorrectException;
 import Model.UtilisateurModel;
 import Model.UtilisateurModel.TABLESENUM;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import utils.Chiffrement;
+import utils.MotDePasseIncorrectException;
 
 /**
  *
@@ -23,13 +23,10 @@ public class MainFrame extends javax.swing.JFrame {
     /**
      * Creates new form MainFrame
      */
-    private TableModelUtilisateur userTableModel;
-
-    private Object[] tableColumns = new Object[]{"nom", "prenom", "mail", "mot de passe"};
-    private Object[][] tableDatas = new Object[][]{};
-    private TableModelUtilisateur tableModel = new TableModelUtilisateur();
+    private TableModelUtilisateur tableModel;
 
     public MainFrame() {
+        this.tableModel = new TableModelUtilisateur();
         initComponents();
         UtilisateurModel utilisateurModel = new UtilisateurModel();
         try {
@@ -66,7 +63,6 @@ public class MainFrame extends javax.swing.JFrame {
         tfMail = new javax.swing.JTextField();
         tfMotDePasse = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
-        btnEditUser = new javax.swing.JButton();
         btnDelUser = new javax.swing.JButton();
         btnAddUser = new javax.swing.JButton();
         PanelTable = new javax.swing.JPanel();
@@ -134,20 +130,6 @@ public class MainFrame extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(51, 51, 51));
 
-        btnEditUser.setBackground(new java.awt.Color(102, 102, 102));
-        btnEditUser.setForeground(new java.awt.Color(204, 204, 204));
-        btnEditUser.setText("Modifier");
-        btnEditUser.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnEditUserMouseClicked(evt);
-            }
-        });
-        btnEditUser.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEditUserActionPerformed(evt);
-            }
-        });
-
         btnDelUser.setBackground(new java.awt.Color(102, 102, 102));
         btnDelUser.setForeground(new java.awt.Color(204, 204, 204));
         btnDelUser.setText("Suprimer");
@@ -185,18 +167,15 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(btnAddUser, javax.swing.GroupLayout.DEFAULT_SIZE, 459, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(445, 445, 445)
                 .addComponent(btnDelUser, javax.swing.GroupLayout.DEFAULT_SIZE, 460, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnEditUser, javax.swing.GroupLayout.DEFAULT_SIZE, 460, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGap(33, 33, 33))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnEditUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnAddUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnDelUser))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -236,30 +215,9 @@ public class MainFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_tfMailActionPerformed
 
-    private void btnEditUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEditUserMouseClicked
+    private void tfMotDePasseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfMotDePasseActionPerformed
         // TODO add your handling code here:
-        System.out.println("Edit");
-    }//GEN-LAST:event_btnEditUserMouseClicked
-
-    private void btnEditUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditUserActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnEditUserActionPerformed
-
-    private void btnDelUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDelUserMouseClicked
-        // TODO add your handling code here:
-        System.out.println("Del");
-    }//GEN-LAST:event_btnDelUserMouseClicked
-
-    private void btnDelUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDelUserActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnDelUserActionPerformed
-
-    private void btnAddUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddUserMouseClicked
-        // TODO add your handling code here:
-        System.out.println("Add: " + this.tfMotDePasse.getText());
-        this.tfMotDePasse.getText();
-
-    }//GEN-LAST:event_btnAddUserMouseClicked
+    }//GEN-LAST:event_tfMotDePasseActionPerformed
 
     private void btnAddUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddUserActionPerformed
         String nom = this.tfNom.getText();
@@ -286,35 +244,54 @@ public class MainFrame extends javax.swing.JFrame {
         } catch (MotDePasseIncorrectException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
         }
-        
-        
-        
-/*
-         try {
-            // Vérifier si le mot de passe respecte les normes
-            if (!ChiffrementDao.checkPassword(motDePasse)) {
-                throw new MotDePasseIncorrectException("Le mot de passe ne respecte pas les normes de sécurité.");
-            }
 
-            // Chiffrer le mot de passe
-            String motDePasseChiffre = ChiffrementDao.chiffrer(motDePasse);
-
-            // Créer et insérer l'utilisateur
-            UtilisateurModel utilisateur = new UtilisateurModel(nom, prenom, mail, false, motDePasseChiffre);
-            UtilisateurDao utilisateurDao = new UtilisateurDao(utilisateur);
-            utilisateurDao.insert(utilisateur);
-
-            // Afficher un message de succès
-            JOptionPane.showMessageDialog(null, "Utilisateur créé avec succès !", "Succès", JOptionPane.INFORMATION_MESSAGE);
-
-        
-*/
-
+        /*
+        * try { // Vérifier si le mot de passe respecte les normes if
+            * (!ChiffrementDao.checkPassword(motDePasse)) { throw new
+                * MotDePasseIncorrectException("Le mot de passe ne respecte pas les
+                    * normes de sécurité."); }
+                    *
+                    * // Chiffrer le mot de passe String motDePasseChiffre =
+                    * ChiffrementDao.chiffrer(motDePasse);
+                    *
+                    * // Créer et insérer l'utilisateur UtilisateurModel utilisateur = new
+                    * UtilisateurModel(nom, prenom, mail, false, motDePasseChiffre);
+                    * UtilisateurDao utilisateurDao = new UtilisateurDao(utilisateur);
+                    * utilisateurDao.insert(utilisateur);
+                    *
+                    * // Afficher un message de succès JOptionPane.showMessageDialog(null,
+                        * "Utilisateur créé avec succès !", "Succès",
+                        * JOptionPane.INFORMATION_MESSAGE);
+                    *
+                    *
+                    */
     }//GEN-LAST:event_btnAddUserActionPerformed
 
-    private void tfMotDePasseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfMotDePasseActionPerformed
+    private void btnAddUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddUserMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_tfMotDePasseActionPerformed
+        System.out.println("Add: " + this.tfMotDePasse.getText());
+        this.tfMotDePasse.getText();
+    }//GEN-LAST:event_btnAddUserMouseClicked
+
+    private void btnDelUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDelUserActionPerformed
+        int[] selectedRows = this.TableUser.getSelectedRows();
+        for (int selectedRow : selectedRows) {
+            UtilisateurModel selectedUser = this.tableModel.getRow(selectedRow);
+            System.out.println(selectedUser);
+            try {
+                UtilisateurDao utilisateurDao = new UtilisateurDao(selectedUser);
+                utilisateurDao.delete(selectedUser);
+                this.tableModel.removeUtilisateur(selectedUser);
+            } catch (SQLException ex) {
+                Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_btnDelUserActionPerformed
+
+    private void btnDelUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDelUserMouseClicked
+        // TODO add your handling code here:
+        System.out.println("Del");
+    }//GEN-LAST:event_btnDelUserMouseClicked
 
     /**
      * @param args the command line arguments
@@ -364,7 +341,6 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JTable TableUser;
     private javax.swing.JButton btnAddUser;
     private javax.swing.JButton btnDelUser;
-    private javax.swing.JButton btnEditUser;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;

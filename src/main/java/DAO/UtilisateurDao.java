@@ -9,6 +9,8 @@ import Model.UtilisateurModel.TABLESENUM;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import utils.QueryBuilder;
 import utils.enums.Operator;
 
@@ -42,6 +44,20 @@ public class UtilisateurDao extends SuperDao<UtilisateurModel> {
                 statement.setObject(i + 1, model.getValues().get(i));
             }
             statement.executeUpdate();
+        }
+    }
+
+    @Override
+    public void delete(UtilisateurModel model) {
+        try {
+            QueryBuilder queryBuilder = new QueryBuilder();
+            String columnStr = UtilisateurModel.getColumnByEnum(TABLESENUM.ID);
+            String query = queryBuilder.where(columnStr, Operator.EQUAL, model.getId()).deleteFrom(super.model.getTable());
+            PreparedStatement stmt = MysqlConnector.getConnexion().prepareStatement(query);
+            stmt.executeUpdate();
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(UtilisateurDao.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

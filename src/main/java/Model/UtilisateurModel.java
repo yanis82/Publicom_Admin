@@ -17,6 +17,11 @@ public class UtilisateurModel extends Model {
 
     private static final List<Column> columns;
 
+    @Override
+    public int getId() {
+        return (int) super.get(getColumnByEnum(TABLESENUM.ID));
+    }
+
     public static enum TABLESENUM {
         ID,
         NOM,

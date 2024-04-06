@@ -76,9 +76,7 @@ public abstract class SuperDao<T extends Model> {
         return model;
     }
 
-    public void delete(T model) throws SQLException {
-        System.out.println("delete");
-    }
+    abstract public void delete(T model) ;
 
     abstract public void update(T model) throws SQLException ;
 

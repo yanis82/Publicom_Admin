@@ -34,6 +34,11 @@ public class TableModelUtilisateur extends AbstractTableModel {
     public int getRowCount() {
         return this.utilisateurs.size();
     }
+    
+    public UtilisateurModel getRow(int row) throws IllegalArgumentException{
+        if(row >= utilisateurs.size()) throw new IllegalArgumentException(String.format("ligne (%s) ne peut pas etre superieur au nombre d'utilisateurs (%s)", row, utilisateurs.size()));
+        return utilisateurs.get(row);
+    }
 
     @Override
     public int getColumnCount() {
@@ -92,8 +97,11 @@ public class TableModelUtilisateur extends AbstractTableModel {
         fireTableDataChanged(); // Notifies JTable of utilisateurs change
     }
     
+    public void removeUtilisateur(UtilisateurModel user) {
+        this.utilisateurs.remove(user);
+        fireTableDataChanged(); // Notifies JTable of utilisateurs change
+    }
     
-
     public List<UtilisateurModel> getData() {
         return Collections.unmodifiableList(this.utilisateurs); // Return unmodifiable list to prevent external modification
     }
