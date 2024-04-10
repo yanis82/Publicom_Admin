@@ -35,12 +35,11 @@ public abstract class SuperDao<T extends Model> {
     }
 
     public List<T> getAll() throws SQLException {
-        var rawColumns = this.model.getColumns();
+        List<Column> rawColumns = this.model.getColumns();
         Column[] columnsArray = new Column[rawColumns.size()];
-        int j = 0;
         for (int i = 0; i < rawColumns.size(); i++) {
             if (rawColumns.get(i) instanceof Column) {
-                columnsArray[j++] = rawColumns.get(i);
+                columnsArray[i] = rawColumns.get(i);
             }
         }
         String getAllQuery = this.queryBuilder

@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package MainFrame;
+package Vue;
 
 import DAO.UtilisateurDao;
 import Model.UtilisateurModel;
@@ -11,8 +11,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import utils.Chiffrement;
-import utils.MotDePasseIncorrectException;
+import utils.Crypt;
 
 /**
  *
@@ -85,6 +84,7 @@ public class MainFrame extends javax.swing.JFrame {
         setBackground(new java.awt.Color(0, 0, 0));
         getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.PAGE_AXIS));
 
+        PanelForm.setMaximumSize(new java.awt.Dimension(2147483647, 400));
         PanelForm.setLayout(new javax.swing.BoxLayout(PanelForm, javax.swing.BoxLayout.LINE_AXIS));
 
         PanelFormLeft.setLayout(new javax.swing.BoxLayout(PanelFormLeft, javax.swing.BoxLayout.PAGE_AXIS));
@@ -129,6 +129,7 @@ public class MainFrame extends javax.swing.JFrame {
         getContentPane().add(PanelForm);
 
         jPanel2.setBackground(new java.awt.Color(51, 51, 51));
+        jPanel2.setMaximumSize(new java.awt.Dimension(2147483647, 100));
 
         btnDelUser.setBackground(new java.awt.Color(102, 102, 102));
         btnDelUser.setForeground(new java.awt.Color(204, 204, 204));
@@ -166,9 +167,9 @@ public class MainFrame extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btnAddUser, javax.swing.GroupLayout.DEFAULT_SIZE, 459, Short.MAX_VALUE)
+                .addComponent(btnAddUser, javax.swing.GroupLayout.DEFAULT_SIZE, 388, Short.MAX_VALUE)
                 .addGap(445, 445, 445)
-                .addComponent(btnDelUser, javax.swing.GroupLayout.DEFAULT_SIZE, 460, Short.MAX_VALUE)
+                .addComponent(btnDelUser, javax.swing.GroupLayout.DEFAULT_SIZE, 394, Short.MAX_VALUE)
                 .addGap(33, 33, 33))
         );
         jPanel2Layout.setVerticalGroup(
@@ -195,15 +196,15 @@ public class MainFrame extends javax.swing.JFrame {
             PanelTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelTableLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1391, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1254, Short.MAX_VALUE)
                 .addContainerGap())
         );
         PanelTableLayout.setVerticalGroup(
             PanelTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelTableLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 440, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 537, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(14, Short.MAX_VALUE))
         );
 
         getContentPane().add(PanelTable);
@@ -224,12 +225,10 @@ public class MainFrame extends javax.swing.JFrame {
         String prenom = this.tfPrenom.getText();
         String mail = this.tfMail.getText();
         String motDePasse = this.tfMotDePasse.getText();
-        Chiffrement chiffrement = new Chiffrement();
+        Crypt chiffrement = new Crypt();
 
-        try {
-            if (!chiffrement.checkPassword(motDePasse)) {
-                throw new MotDePasseIncorrectException("Le mot de passe ne respecte pas les normes de sécurité.");
-            }
+        var checkedPassword = chiffrement.checkPassword(motDePasse);
+        if (checkedPassword.isValid()) {
             String password = chiffrement.hash(motDePasse);
             UtilisateurModel utilisateur = new UtilisateurModel(nom, prenom, mail, false, password);
             UtilisateurDao utilisateurDao;
@@ -240,31 +239,9 @@ public class MainFrame extends javax.swing.JFrame {
             } catch (SQLException ex) {
                 Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
             }
-
-        } catch (MotDePasseIncorrectException ex) {
-            JOptionPane.showMessageDialog(null, ex.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
+        }else {
+            JOptionPane.showMessageDialog(null, checkedPassword.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
         }
-
-        /*
-        * try { // Vérifier si le mot de passe respecte les normes if
-            * (!ChiffrementDao.checkPassword(motDePasse)) { throw new
-                * MotDePasseIncorrectException("Le mot de passe ne respecte pas les
-                    * normes de sécurité."); }
-                    *
-                    * // Chiffrer le mot de passe String motDePasseChiffre =
-                    * ChiffrementDao.chiffrer(motDePasse);
-                    *
-                    * // Créer et insérer l'utilisateur UtilisateurModel utilisateur = new
-                    * UtilisateurModel(nom, prenom, mail, false, motDePasseChiffre);
-                    * UtilisateurDao utilisateurDao = new UtilisateurDao(utilisateur);
-                    * utilisateurDao.insert(utilisateur);
-                    *
-                    * // Afficher un message de succès JOptionPane.showMessageDialog(null,
-                        * "Utilisateur créé avec succès !", "Succès",
-                        * JOptionPane.INFORMATION_MESSAGE);
-                    *
-                    *
-                    */
     }//GEN-LAST:event_btnAddUserActionPerformed
 
     private void btnAddUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddUserMouseClicked

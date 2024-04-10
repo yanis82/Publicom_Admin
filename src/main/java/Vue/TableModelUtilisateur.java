@@ -1,4 +1,4 @@
-package MainFrame;
+package Vue;
 
 import DAO.UtilisateurDao;
 import Model.UtilisateurModel;

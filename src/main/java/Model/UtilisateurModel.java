@@ -16,12 +16,25 @@ import utils.Column;
 public class UtilisateurModel extends Model {
 
     private static final List<Column> columns;
+    
+    
 
-    @Override
-    public int getId() {
-        return (int) super.get(getColumnByEnum(TABLESENUM.ID));
+    public UtilisateurModel() {
+        super("UTILISATEUR", columns); // Set table name
     }
 
+    public UtilisateurModel(String nom, String prenom, String email, boolean isAdmin, String password) {
+        this();
+        super.set(getColumnByEnum(TABLESENUM.NOM), nom);
+        super.set(getColumnByEnum(TABLESENUM.PRENOM), prenom);
+        super.set(getColumnByEnum(TABLESENUM.EMAIL), email);
+        super.set(getColumnByEnum(TABLESENUM.ISADMIN), isAdmin ? 1 : 0);
+        super.set(getColumnByEnum(TABLESENUM.MDP), password);
+    }
+    
+    
+    // Static \\
+    
     public static enum TABLESENUM {
         ID,
         NOM,
@@ -58,18 +71,12 @@ public class UtilisateurModel extends Model {
         cols.add(Column.ofString(getColumnByEnum(TABLESENUM.MDP)));
         columns = Collections.unmodifiableList(cols);
     }
+    
+    // Public \\
 
-    public UtilisateurModel() {
-        super("UTILISATEUR", columns); // Set table name
-    }
-
-    public UtilisateurModel(String nom, String prenom, String email, boolean isAdmin, String password) {
-        this();
-        super.set(getColumnByEnum(TABLESENUM.NOM), nom);
-        super.set(getColumnByEnum(TABLESENUM.PRENOM), prenom);
-        super.set(getColumnByEnum(TABLESENUM.EMAIL), email);
-        super.set(getColumnByEnum(TABLESENUM.ISADMIN), isAdmin ? 1 : 0);
-        super.set(getColumnByEnum(TABLESENUM.MDP), password);
+    @Override
+    public int getId() {
+        return (int) super.get(getColumnByEnum(TABLESENUM.ID));
     }
     
     public List<Object> getValues (){

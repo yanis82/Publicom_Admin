@@ -16,7 +16,6 @@ import utils.Column;
  * @author 08luc
  */
 public abstract class Model {
-
     protected final String table;
     private final List<Column> columns;
     protected Map<String, Object> row;
@@ -25,7 +24,7 @@ public abstract class Model {
         this.table = table;
         this.columns = columns;
         this.row = new HashMap<>();
-        for(Column column : columns) {
+        for (Column column : columns) {
             this.row.put(column.getName(), null);
         }
     }
@@ -37,30 +36,32 @@ public abstract class Model {
     public List<Column> getColumns() {
         return Collections.unmodifiableList(columns);
     }
-    
+
     public List<String> getColumnsStr() {
         List<String> maliste = columns.stream().map((column) -> column.getName()).collect(Collectors.toList());
         return maliste;
     }
 
-    public void set(String columnName, Object value) throws IllegalArgumentException{
-        if (!this.row.containsKey(columnName)) {
+    public void set(String columnName, Object value) throws IllegalArgumentException {
+        if (this.row.containsKey(columnName)) {
+            this.row.put(columnName, value);
+            //TODO: Verifier si value correspond au type attendue de la column
+        } else {
             throw new IllegalArgumentException("Column " + columnName + " not found in model");
         }
-        this.row.put(columnName, value);
     }
 
-    public Object get(String columnName) throws IllegalArgumentException{
+    public Object get(String columnName) throws IllegalArgumentException {
         if (!this.row.containsKey(columnName)) {
             throw new IllegalArgumentException("Column " + columnName + " not found in model");
         }
         return this.row.get(columnName);
     }
-    
-    
-    
-    public abstract List<Object> getValues ();
+
+    public abstract List<Object> getValues();
+
     public abstract void setId(int id);
+
     abstract public int getId();
 
     @Override
