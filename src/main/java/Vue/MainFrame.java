@@ -6,9 +6,9 @@ package Vue;
 
 import DAO.UtilisateurDao;
 import Model.UtilisateurModel;
-import Model.UtilisateurModel.TABLESENUM;
 import controller.TableModelUtilisateur;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -34,13 +34,8 @@ public class MainFrame extends javax.swing.JFrame {
         UtilisateurModel utilisateurModel = new UtilisateurModel();
         try {
             UtilisateurDao utilisateurDao = new UtilisateurDao(utilisateurModel);
-            var allUtilisateurs = utilisateurDao.getAll();
+            List<UtilisateurModel> allUtilisateurs = utilisateurDao.getAll();
             for (UtilisateurModel utilisateur : allUtilisateurs) {
-                String nom = UtilisateurModel.getColumnByEnum(TABLESENUM.NOM);
-                String prenom = UtilisateurModel.getColumnByEnum(TABLESENUM.PRENOM);
-                String mail = UtilisateurModel.getColumnByEnum(TABLESENUM.EMAIL);
-                String motDePasse = UtilisateurModel.getColumnByEnum(TABLESENUM.MDP);
-
                 this.tableModel.addUtilisateur(utilisateur);
             }
         } catch (SQLException ex) {
@@ -225,8 +220,10 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_tfMotDePasseActionPerformed
 
     private void btnAddUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddUserActionPerformed
-        Nom nom = new Nom(this.tfNom.getText());
+        try {
+            
         Prenom prenom = new Prenom(this.tfPrenom.getText());
+        Nom nom = new Nom(this.tfNom.getText());
         Email mail = new Email(this.tfMail.getText());
         String motDePasse = this.tfMotDePasse.getText();
         Crypt chiffrement = new Crypt();
@@ -241,17 +238,24 @@ public class MainFrame extends javax.swing.JFrame {
                 UtilisateurModel createdUtilisateur = utilisateurDao.insert(utilisateur);
                 this.tableModel.addUtilisateur(utilisateur);
             } catch (SQLException ex) {
-                Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);            
+                JOptionPane.showMessageDialog(null, "Erreur Serveur", "Erreur", JOptionPane.ERROR_MESSAGE);
+            } catch(Exception ex) {
+                JOptionPane.showMessageDialog(null, "Erreur Inconnu", "Erreur", JOptionPane.ERROR_MESSAGE);
             }
         }else {
             JOptionPane.showMessageDialog(null, checkedPassword.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
         }
+        } catch (IllegalArgumentException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            JOptionPane.showMessageDialog(null, "Erreur inconnu", "Erreur", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnAddUserActionPerformed
 
     private void btnAddUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddUserMouseClicked
-        // TODO add your handling code here:
-        System.out.println("Add: " + this.tfMotDePasse.getText());
-        this.tfMotDePasse.getText();
+
     }//GEN-LAST:event_btnAddUserMouseClicked
 
     private void btnDelUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDelUserActionPerformed

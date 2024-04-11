@@ -7,10 +7,12 @@ package Model;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Stream;
 import utils.Column;
 import utils.validityClass.Email;
 import utils.validityClass.Nom;
 import utils.validityClass.Prenom;
+import utils.validityClass.ValidityClass;
 
 /**
  *
@@ -26,13 +28,17 @@ public class UtilisateurModel extends Model {
         super("UTILISATEUR", columns); // Set table name
     }
 
-    public UtilisateurModel(Nom nom, Prenom prenom, Email email, boolean isAdmin, String password) throws IllegalArgumentException {
+    public UtilisateurModel(Nom nom, Prenom prenom, Email email, Boolean isAdmin, String password) throws IllegalArgumentException {
         this();
         super.set(getColumnByEnum(TABLESENUM.NOM), nom);
         super.set(getColumnByEnum(TABLESENUM.PRENOM), prenom);
         super.set(getColumnByEnum(TABLESENUM.EMAIL), email);
-        super.set(getColumnByEnum(TABLESENUM.ISADMIN), isAdmin ? 1 : 0);
+        super.set(getColumnByEnum(TABLESENUM.ISADMIN), isAdmin);
         super.set(getColumnByEnum(TABLESENUM.MDP), password);
+    }
+    
+    public UtilisateurModel(String nom, String prenom, String email, Boolean isAdmin, String password) throws IllegalArgumentException {
+        this(new Nom(nom), new Prenom(prenom), new Email(email), isAdmin, password);
     }
     
     
@@ -85,12 +91,34 @@ public class UtilisateurModel extends Model {
     
     public List<Object> getValues (){
         ArrayList<Object> values = new ArrayList<>();
-        values.add(super.get(getColumnByEnum(TABLESENUM.NOM)));
-        values.add(super.get(getColumnByEnum(TABLESENUM.PRENOM)));
-        values.add(super.get(getColumnByEnum(TABLESENUM.EMAIL)));
-        values.add(super.get(getColumnByEnum(TABLESENUM.ISADMIN)));
-        values.add(super.get(getColumnByEnum(TABLESENUM.MDP)));
-        return values;
+        Object nom = super.get(getColumnByEnum(TABLESENUM.NOM));
+        Object prenom = super.get(getColumnByEnum(TABLESENUM.PRENOM));
+        Object email = super.get(getColumnByEnum(TABLESENUM.EMAIL));
+        Object isAdmin = super.get(getColumnByEnum(TABLESENUM.ISADMIN));
+        Object mdp = super.get(getColumnByEnum(TABLESENUM.MDP));
+        values.add(nom);
+        values.add(prenom);
+        values.add(email);
+        values.add(isAdmin);
+        values.add(mdp);
+        
+        /*
+         * Ici je parcours ma liste et je regarde si les elements sont de type ValidityClass
+         * Si oui je ne pourrai pas l'utiliser dans mon sql donc je recupere sa valeur sous un type primitif (int, string...)
+         * sinon je garde le meme
+         * le tout retourne un map que je pourrai transformer en liste pour avoir une liste sans ValidityClass
+         */
+        Stream<Object> map = values.stream().map((el) -> {
+            if(el instanceof ValidityClass) {
+                return ((ValidityClass) el).getValue();
+            }else {
+                return el;
+            }
+        });
+        
+        var primarDatas = map.toList();
+        System.out.println(primarDatas);
+        return primarDatas;
     }
     
     public void setId(int id) {

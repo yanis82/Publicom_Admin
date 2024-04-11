@@ -10,15 +10,15 @@ import java.util.regex.Pattern;
  *
  * @author 08luc
  */
-public class Email {
+public class Email implements ValidityClass<String>{
 
     private String email;
 
-    public Email(String adresseEmail) throws IllegalArgumentException {
-        if(this.isValide()) {
-            
-        this.email = adresseEmail;
-        }else {
+    public Email(String email) throws IllegalArgumentException {
+        if (this.isValide(email)) {
+
+            this.email = email;
+        } else {
             throw new IllegalArgumentException("email invalide");
         }
     }
@@ -33,11 +33,15 @@ public class Email {
 
     @Override
     public String toString() {
-        return email;
+        return this.email;
     }
-
+    
+    public String getValue() {
+        return this.email;
+    }
+    
     // Méthodes de validation supplémentaires (optionnel)
-    private boolean isValide() {
+    private boolean isValide(String email) {
         // Regex pour valider l'adresse email
         return Pattern.matches("[^@]+@[^@]+\\.[^@]+", email);
     }

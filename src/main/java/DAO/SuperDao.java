@@ -81,8 +81,11 @@ public abstract class SuperDao<T extends Model> {
     }
 
     public T insert(T model) throws SQLException {
-        List<String> columns = model.getColumnsStr().subList(1, model.getColumnsStr().size());;
+        List<String> columns = model.getColumnsStr().subList(1, model.getColumnsStr().size());
         List<Object> values = model.getValues();
+        System.out.println("values : \n" + values);        
+        System.out.println("valuesType : \n" + values.stream().map((el) -> el.getClass()).toList());
+
         int generatedId = this.queryBuilder.insertInto(model.getTable(), columns, values);
         model.setId(generatedId);
         return model;

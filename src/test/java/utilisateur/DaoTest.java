@@ -18,6 +18,9 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import utils.QueryBuilder;
+import utils.validityClass.Email;
+import utils.validityClass.Nom;
+import utils.validityClass.Prenom;
 
 /**
  *
@@ -69,7 +72,11 @@ public class DaoTest {
     @Test
     public void QueryBuilderInsertTest() throws SQLException {
         QueryBuilder queryBuilder = new QueryBuilder();
-        UtilisateurModel utilisateur = new UtilisateurModel("Sanchez", "Jose", "jojo@gmail.com", true, "JOJODU82");
+        Nom nom = new Nom("Sanchez");
+        Prenom prenom = new Prenom("Lucas");
+        Email email = new Email("test@gmail.com");
+                
+        UtilisateurModel utilisateur = new UtilisateurModel(nom, prenom, email, true, "#jojoJOJODU82");
         List<String> columns = utilisateur.getColumnsStr().subList(1, utilisateur.getColumnsStr().size());
         List<Object> values = utilisateur.getValues();
         System.out.println("values : " + values);

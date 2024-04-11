@@ -34,9 +34,11 @@ public class TableModelUtilisateur extends AbstractTableModel {
     public int getRowCount() {
         return this.utilisateurs.size();
     }
-    
-    public UtilisateurModel getRow(int row) throws IllegalArgumentException{
-        if(row >= utilisateurs.size()) throw new IllegalArgumentException(String.format("ligne (%s) ne peut pas etre superieur au nombre d'utilisateurs (%s)", row, utilisateurs.size()));
+
+    public UtilisateurModel getRow(int row) throws IllegalArgumentException {
+        if (row >= utilisateurs.size()) {
+            throw new IllegalArgumentException(String.format("ligne (%s) ne peut pas etre superieur au nombre d'utilisateurs (%s)", row, utilisateurs.size()));
+        }
         return utilisateurs.get(row);
     }
 
@@ -53,9 +55,11 @@ public class TableModelUtilisateur extends AbstractTableModel {
     @Override
     public Class<?> getColumnClass(int columnIndex) {
         UtilisateurModel utilsiateurModel = new UtilisateurModel();
-        if((utilsiateurModel.getColumns().size() > columnIndex) && (columnIndex >=0)) {
+        if ((utilsiateurModel.getColumns().size() > columnIndex) && (columnIndex >= 0)) {
             return utilsiateurModel.getColumns().get(columnIndex).getType();
-        }else return null;
+        } else {
+            return null;
+        }
     }
 
     @Override
@@ -63,16 +67,16 @@ public class TableModelUtilisateur extends AbstractTableModel {
         UtilisateurModel user = this.utilisateurs.get(rowIndex);
         return user.get(columnNames.get(columnIndex));
     }
-    
+
     @Override
     public boolean isCellEditable(int rowIndex, int columnIndex) {
         return true;
     }
-    
+
     @Override
     public void fireTableCellUpdated(int row, int column) {
         super.fireTableCellUpdated(row, column);
-        
+
         UtilisateurModel utilisateur = utilisateurs.get(row);
         try {
             UtilisateurDao utilisateurDao = new UtilisateurDao(utilisateur);
@@ -83,7 +87,7 @@ public class TableModelUtilisateur extends AbstractTableModel {
             //TODO: MAKE OBSERVER
         }
     }
-    
+
     @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {  //update
         System.out.println("UTILISATEUR : \n" + this.utilisateurs.get(rowIndex));
@@ -92,17 +96,24 @@ public class TableModelUtilisateur extends AbstractTableModel {
         user.set(columnName, aValue);
         fireTableCellUpdated(rowIndex, columnIndex);
     }
-    
+
     public void addUtilisateur(UtilisateurModel user) {
-        this.utilisateurs.add(user);
-        fireTableDataChanged(); // Notifies JTable of utilisateurs change
+        try {
+            this.utilisateurs.add(user);
+            fireTableDataChanged(); // Notifies JTable of utilisateurs change
+            System.out.println("utilisateur : \n " + user);
+        } catch (Exception ex) {
+            Logger.getLogger(TableModelUtilisateur.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("erreur caca");
+            System.out.println("Erreur utilisateur : \n " + user);
+        }
     }
-    
+
     public void removeUtilisateur(UtilisateurModel user) {
         this.utilisateurs.remove(user);
         fireTableDataChanged(); // Notifies JTable of utilisateurs change
     }
-    
+
     public List<UtilisateurModel> getData() {
         return Collections.unmodifiableList(this.utilisateurs); // Return unmodifiable list to prevent external modification
     }

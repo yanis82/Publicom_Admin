@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import utils.Column;
+import utils.validityClass.ValidityClass;
 
 /**
  *
@@ -55,7 +56,8 @@ public abstract class Model {
         if (!this.row.containsKey(columnName)) {
             throw new IllegalArgumentException("Column " + columnName + " not found in model");
         }
-        return this.row.get(columnName);
+        Object value = this.row.get(columnName);
+        return value instanceof ValidityClass ? ((ValidityClass) value).getValue() : value;
     }
 
     public abstract List<Object> getValues();

@@ -8,7 +8,7 @@ package utils.validityClass;
  *
  * @author 08luc
  */
-public class ValidString {
+public class ValidString implements ValidityClass<String>{
     String validSting;
     
     public ValidString (String libelle, String validString) throws IllegalArgumentException{
@@ -17,5 +17,13 @@ public class ValidString {
         }else {
             throw new IllegalArgumentException(String.format("%s necessite plus de 2 caracteres", libelle));
         }
+    }
+    
+    public String toString() {
+        return this.validSting;
+    }
+    
+    public String getValue() {
+        return this.validSting;
     }
 }
