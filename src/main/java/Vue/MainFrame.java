@@ -7,11 +7,15 @@ package Vue;
 import DAO.UtilisateurDao;
 import Model.UtilisateurModel;
 import Model.UtilisateurModel.TABLESENUM;
+import controller.TableModelUtilisateur;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import utils.Crypt;
+import utils.validityClass.Email;
+import utils.validityClass.Nom;
+import utils.validityClass.Prenom;
 
 /**
  *
@@ -221,9 +225,9 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_tfMotDePasseActionPerformed
 
     private void btnAddUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddUserActionPerformed
-        String nom = this.tfNom.getText();
-        String prenom = this.tfPrenom.getText();
-        String mail = this.tfMail.getText();
+        Nom nom = new Nom(this.tfNom.getText());
+        Prenom prenom = new Prenom(this.tfPrenom.getText());
+        Email mail = new Email(this.tfMail.getText());
         String motDePasse = this.tfMotDePasse.getText();
         Crypt chiffrement = new Crypt();
 

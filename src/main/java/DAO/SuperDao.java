@@ -49,18 +49,31 @@ public abstract class SuperDao<T extends Model> {
         PreparedStatement stat = this.getConnection().prepareStatement(getAllQuery);
         ResultSet rs = stat.executeQuery();
         ArrayList<T> listModels = new ArrayList<>();
+
         while (rs.next()) {
             T rowModel = this.createModelInstance();
             for (Column column : this.model.getColumns()) {
-                if (column.getType() == String.class) {
-                    rowModel.set(column.getName(), rs.getString(column.getName()));
-                } else if (column.getType() == int.class) {
-                    rowModel.set(column.getName(), rs.getInt(column.getName()));
-                } else if (column.getType() == boolean.class) {
-                    rowModel.set(column.getName(), rs.getBoolean(column.getName()));
-                } else {
-                    throw new IllegalArgumentException("SuuperDao : getall -> ne prend en compte que les types int, string et boolean");
+                String columnName = column.getName();
+                Object value = rs.getObject(columnName);
+                rowModel.set(columnName, value);
+                    System.out.println("colonne : \n\t" + column);
+                if(column.getType().isInstance(value)) {
+                    System.out.println("EST DU BON TYPE");
+                }else{
+                    System.out.println("EST DU MAUVAIS TYPE \nDEVRAIT ETRE [" + value.getClass() + "] MAIS EST : [" + column.getType()+ ']');
                 }
+                /*
+                 * if (column.getType() == String.class) {
+                 * rowModel.set(column.getName(),
+                 * rs.getString(column.getName())); } else if (column.getType()
+                 * == int.class) { rowModel.set(column.getName(),
+                 * rs.getInt(column.getName())); } else if (column.getType() ==
+                 * boolean.class) { rowModel.set(column.getName(),
+                 * rs.getBoolean(column.getName())); } else { throw new
+                 * IllegalArgumentException("SuuperDao : getall -> ne prend en
+                 * compte que les types int, string et boolean");
+                }
+                 */
             }
             listModels.add(rowModel);
         }
@@ -75,9 +88,9 @@ public abstract class SuperDao<T extends Model> {
         return model;
     }
 
-    abstract public void delete(T model) ;
+    abstract public void delete(T model);
 
-    abstract public void update(T model) throws SQLException ;
+    abstract public void update(T model) throws SQLException;
 
     public T get() {
         System.out.println("get");

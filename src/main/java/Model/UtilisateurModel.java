@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import utils.Column;
+import utils.validityClass.Email;
+import utils.validityClass.Nom;
+import utils.validityClass.Prenom;
 
 /**
  *
@@ -23,7 +26,7 @@ public class UtilisateurModel extends Model {
         super("UTILISATEUR", columns); // Set table name
     }
 
-    public UtilisateurModel(String nom, String prenom, String email, boolean isAdmin, String password) {
+    public UtilisateurModel(Nom nom, Prenom prenom, Email email, boolean isAdmin, String password) throws IllegalArgumentException {
         this();
         super.set(getColumnByEnum(TABLESENUM.NOM), nom);
         super.set(getColumnByEnum(TABLESENUM.PRENOM), prenom);
@@ -66,8 +69,9 @@ public class UtilisateurModel extends Model {
         cols.add(Column.ofInt(getColumnByEnum(TABLESENUM.ID))); // Use Columns class for type safety
         cols.add(Column.ofString(getColumnByEnum(TABLESENUM.NOM))); // Specify char length for string columns
         cols.add(Column.ofString(getColumnByEnum(TABLESENUM.PRENOM)));
-        cols.add(Column.ofString(getColumnByEnum(TABLESENUM.EMAIL)));
-        cols.add(Column.ofInt(getColumnByEnum(TABLESENUM.ISADMIN)));
+//        cols.add(Column.ofString(getColumnByEnum(TABLESENUM.EMAIL)));
+        cols.add(Column.of(getColumnByEnum(TABLESENUM.EMAIL), Email.class));
+        cols.add(Column.ofBool(getColumnByEnum(TABLESENUM.ISADMIN)));
         cols.add(Column.ofString(getColumnByEnum(TABLESENUM.MDP)));
         columns = Collections.unmodifiableList(cols);
     }

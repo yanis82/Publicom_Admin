@@ -14,7 +14,7 @@ import org.mindrot.jbcrypt.BCrypt;
  */
 public class Crypt {
 
-    public checkedPassword checkPassword(String password) {
+    public CheckedValue checkPassword(String password) {
         boolean isValid = true;
         List<String> messages = new ArrayList<String>();
         // Vérifier la longueur du mot de passe
@@ -52,7 +52,7 @@ public class Crypt {
                 message.append(el).append("\n\t");
             }
         }
-        return new checkedPassword(message.toString(), isValid);
+        return new CheckedValue(message.toString(), isValid);
     }
 
     public String hash(String password) {

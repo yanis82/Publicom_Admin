@@ -1,4 +1,4 @@
-package Vue;
+package controller;
 
 import DAO.UtilisateurDao;
 import Model.UtilisateurModel;
@@ -85,7 +85,8 @@ public class TableModelUtilisateur extends AbstractTableModel {
     }
     
     @Override
-    public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
+    public void setValueAt(Object aValue, int rowIndex, int columnIndex) {  //update
+        System.out.println("UTILISATEUR : \n" + this.utilisateurs.get(rowIndex));
         UtilisateurModel user = this.utilisateurs.get(rowIndex);
         String columnName = user.getColumns().get(columnIndex).getName();
         user.set(columnName, aValue);

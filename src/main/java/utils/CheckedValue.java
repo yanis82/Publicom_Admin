@@ -9,12 +9,12 @@ package utils;
  *
  * @author 08luc
  */
-public class checkedPassword {
+public class CheckedValue {
 
     private String message;
     private boolean isOk;
 
-    public checkedPassword(String message, boolean isOk) {
+    public CheckedValue(String message, boolean isOk) {
         this.isOk = isOk;
         this.message = message;
     }

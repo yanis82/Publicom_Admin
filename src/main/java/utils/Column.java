@@ -35,6 +35,16 @@ public class Column {
     }
 
     public static Column ofInt(String name) {
-        return Column.of(name, int.class);
+        return Column.of(name, Integer.class);
     }
+    
+    public static Column ofBool(String name) {
+        return Column.of(name, Boolean.class);
+    }
+
+    @Override
+    public String toString() {
+        return "Column{" + "\n\tname=" + name + ", \n\ttype=" + type + "\n}";
+    }
+    
 }
