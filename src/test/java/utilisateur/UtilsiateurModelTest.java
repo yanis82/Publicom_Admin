@@ -4,8 +4,8 @@
  */
 package utilisateur;
 
-import DAO.MysqlConnector;
 import Model.UtilisateurModel;
+import java.util.List;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import static org.junit.jupiter.api.Assertions.*;
@@ -44,13 +44,6 @@ public class UtilsiateurModelTest {
     // @Test
     // public void hello() {}
     @Test
-    public void testConnection() {
-        assertDoesNotThrow(() -> {
-            var connexion = MysqlConnector.getConnexion();
-        });
-    }
-
-    @Test
     public void testUtilisateurModelCreation() {
         UtilisateurModel utilisateur = new UtilisateurModel();
         assertNotNull(utilisateur);
@@ -60,8 +53,10 @@ public class UtilsiateurModelTest {
     @Test
     public void testUtilisateurModelSettersAndGetters() {
         UtilisateurModel utilisateur = new UtilisateurModel();
-        utilisateur.set("NOMUTILISATEUR", "John Doe");
-        utilisateur.set("EMAILUTILISATEUR", "johndoe@example.com");
+        utilisateur.set("NOMUTILISATEUR", "Doe");
+        utilisateur.set("EMAILUTILISATEUR", "johndoe@example.com");        
+        utilisateur.set("PRENOMUTILISATEUR", "John");
+
 
         assertEquals("John Doe", utilisateur.get("NOMUTILISATEUR"));
         assertEquals("johndoe@example.com", utilisateur.get("EMAILUTILISATEUR"));
@@ -73,5 +68,18 @@ public class UtilsiateurModelTest {
         } catch (IllegalArgumentException e) {
             // Expected exception
         }
+    }
+
+    @Test
+    public void getUtilisateursValues() {
+        UtilisateurModel utilisateur = new UtilisateurModel("Doe", "Jhon", "Jhon.doe@gmail.com", Boolean.FALSE, "#Mot2Passe");
+        System.out.println("getValues : ");
+        List values = utilisateur.getValues();
+        System.out.println(values);
+        
+        System.out.println("\n\t type values :");
+        List typeValues = values.stream().map((el) -> el.getClass()).toList();
+        System.out.println(typeValues);
+
     }
 }

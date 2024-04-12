@@ -10,4 +10,5 @@ package utils.validityClass;
  */
 public interface ValidityClass<T>{
     public abstract T getValue();
+    public abstract String toString();
 }

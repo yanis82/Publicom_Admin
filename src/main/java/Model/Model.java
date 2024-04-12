@@ -17,6 +17,7 @@ import utils.validityClass.ValidityClass;
  * @author 08luc
  */
 public abstract class Model {
+
     protected final String table;
     private final List<Column> columns;
     protected Map<String, Object> row;
@@ -44,12 +45,17 @@ public abstract class Model {
     }
 
     public void set(String columnName, Object value) throws IllegalArgumentException {
+        System.out.println(String.format("Model.set(%s, %s)", columnName, value));
         if (this.row.containsKey(columnName)) {
             this.row.put(columnName, value);
             //TODO: Verifier si value correspond au type attendue de la column
         } else {
             throw new IllegalArgumentException("Column " + columnName + " not found in model");
         }
+    }
+
+    public void set(String columnName, ValidityClass value) throws IllegalArgumentException {
+        this.set(columnName, value.getValue());
     }
 
     public Object get(String columnName) throws IllegalArgumentException {

@@ -5,6 +5,7 @@
 package DAO;
 
 import Model.Model;
+import java.awt.Component;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -23,6 +24,7 @@ public abstract class SuperDao<T extends Model> {
     protected T model;
     private Connection connection;
     private QueryBuilder queryBuilder;
+    private Component component;
 
     protected SuperDao(T model) throws SQLException {
         this.connection = MysqlConnector.getConnexion();
@@ -55,25 +57,7 @@ public abstract class SuperDao<T extends Model> {
             for (Column column : this.model.getColumns()) {
                 String columnName = column.getName();
                 Object value = rs.getObject(columnName);
-                rowModel.set(columnName, value);
-                    System.out.println("colonne : \n\t" + column);
-                if(column.getType().isInstance(value)) {
-                    System.out.println("EST DU BON TYPE");
-                }else{
-                    System.out.println("EST DU MAUVAIS TYPE \nDEVRAIT ETRE [" + value.getClass() + "] MAIS EST : [" + column.getType()+ ']');
-                }
-                /*
-                 * if (column.getType() == String.class) {
-                 * rowModel.set(column.getName(),
-                 * rs.getString(column.getName())); } else if (column.getType()
-                 * == int.class) { rowModel.set(column.getName(),
-                 * rs.getInt(column.getName())); } else if (column.getType() ==
-                 * boolean.class) { rowModel.set(column.getName(),
-                 * rs.getBoolean(column.getName())); } else { throw new
-                 * IllegalArgumentException("SuuperDao : getall -> ne prend en
-                 * compte que les types int, string et boolean");
-                }
-                 */
+                    rowModel.set(columnName, value);
             }
             listModels.add(rowModel);
         }
@@ -83,9 +67,6 @@ public abstract class SuperDao<T extends Model> {
     public T insert(T model) throws SQLException {
         List<String> columns = model.getColumnsStr().subList(1, model.getColumnsStr().size());
         List<Object> values = model.getValues();
-        System.out.println("values : \n" + values);        
-        System.out.println("valuesType : \n" + values.stream().map((el) -> el.getClass()).toList());
-
         int generatedId = this.queryBuilder.insertInto(model.getTable(), columns, values);
         model.setId(generatedId);
         return model;
@@ -100,5 +81,14 @@ public abstract class SuperDao<T extends Model> {
         return null;
     }
 
+    public Component getComponent() {
+        return component;
+    }
+
+    public void setComponent(Component component) {
+        this.component = component;
+    }
+    
+    
     protected abstract T createModelInstance();
 }

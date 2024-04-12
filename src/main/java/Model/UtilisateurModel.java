@@ -7,12 +7,10 @@ package Model;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Stream;
 import utils.Column;
 import utils.validityClass.Email;
 import utils.validityClass.Nom;
 import utils.validityClass.Prenom;
-import utils.validityClass.ValidityClass;
 
 /**
  *
@@ -73,9 +71,8 @@ public class UtilisateurModel extends Model {
     static {
         List<Column> cols = new ArrayList<>();
         cols.add(Column.ofInt(getColumnByEnum(TABLESENUM.ID))); // Use Columns class for type safety
-        cols.add(Column.ofString(getColumnByEnum(TABLESENUM.NOM))); // Specify char length for string columns
-        cols.add(Column.ofString(getColumnByEnum(TABLESENUM.PRENOM)));
-//        cols.add(Column.ofString(getColumnByEnum(TABLESENUM.EMAIL)));
+        cols.add(Column.of(getColumnByEnum(TABLESENUM.NOM), Nom.class)); // Specify char length for string columns
+        cols.add(Column.of(getColumnByEnum(TABLESENUM.PRENOM), Prenom.class));
         cols.add(Column.of(getColumnByEnum(TABLESENUM.EMAIL), Email.class));
         cols.add(Column.ofBool(getColumnByEnum(TABLESENUM.ISADMIN)));
         cols.add(Column.ofString(getColumnByEnum(TABLESENUM.MDP)));
@@ -108,17 +105,7 @@ public class UtilisateurModel extends Model {
          * sinon je garde le meme
          * le tout retourne un map que je pourrai transformer en liste pour avoir une liste sans ValidityClass
          */
-        Stream<Object> map = values.stream().map((el) -> {
-            if(el instanceof ValidityClass) {
-                return ((ValidityClass) el).getValue();
-            }else {
-                return el;
-            }
-        });
-        
-        var primarDatas = map.toList();
-        System.out.println(primarDatas);
-        return primarDatas;
+        return values;
     }
     
     public void setId(int id) {

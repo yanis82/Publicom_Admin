@@ -4,18 +4,19 @@
  */
 package utils.validityClass;
 
+import com.google.protobuf.TextFormat;
 import java.util.regex.Pattern;
 
 /**
  *
  * @author 08luc
  */
-public class Email implements ValidityClass<String>{
+public class Email implements ValidityClass<String>  {
 
     private String email;
 
     public Email(String email) throws IllegalArgumentException {
-        if (this.isValide(email)) {
+        if (Email.isValid(email)) {
 
             this.email = email;
         } else {
@@ -35,14 +36,26 @@ public class Email implements ValidityClass<String>{
     public String toString() {
         return this.email;
     }
-    
+
     public String getValue() {
         return this.email;
     }
-    
+
     // Méthodes de validation supplémentaires (optionnel)
-    private boolean isValide(String email) {
+    static boolean isValid(String email) {
         // Regex pour valider l'adresse email
         return Pattern.matches("[^@]+@[^@]+\\.[^@]+", email);
+    }
+
+    public static Email cast(String value) throws TextFormat.ParseException {
+        // Implement validation logic here to ensure the String is a valid email address
+        // You can use regular expressions or other validation techniques
+
+        if (Email.isValid(value)) {
+            return new Email(value);
+        } else {
+            throw new TextFormat.ParseException("Invalid email format");
+        }
+
     }
 }

@@ -24,10 +24,21 @@ public class TableModelUtilisateur extends AbstractTableModel {
 
     private List<UtilisateurModel> utilisateurs;
     private final List<String> columnNames;
+    private final List<String> columnNamesWithHiddens;
+
 
     public TableModelUtilisateur() {
         this.utilisateurs = new ArrayList<>();
-        this.columnNames = new UtilisateurModel().getColumnsStr();
+        this.columnNamesWithHiddens = new ArrayList<>((new UtilisateurModel()).getColumnsStr());
+        var columnNamesTemp = new ArrayList<>(columnNamesWithHiddens);
+        
+        int mdpIndex = this.columnNamesWithHiddens.indexOf(UtilisateurModel.getColumnByEnum(UtilisateurModel.TABLESENUM.MDP));
+        int idIndex = this.columnNamesWithHiddens.indexOf(UtilisateurModel.getColumnByEnum(UtilisateurModel.TABLESENUM.ID));
+        
+        columnNamesTemp.remove(mdpIndex);
+        columnNamesTemp.remove(idIndex); 
+        this.columnNames = new ArrayList<>(columnNamesTemp);
+        System.out.println(columnNames);
     }
 
     @Override
@@ -44,19 +55,21 @@ public class TableModelUtilisateur extends AbstractTableModel {
 
     @Override
     public int getColumnCount() {
-        return columnNames.size();
+        return this.columnNames.size();
     }
 
     @Override
     public String getColumnName(int columnIndex) {
+        
         return columnNames.get(columnIndex);
     }
 
     @Override
     public Class<?> getColumnClass(int columnIndex) {
+        int realColumn = this.columnIndexVisibleToHidden(columnIndex);
         UtilisateurModel utilsiateurModel = new UtilisateurModel();
-        if ((utilsiateurModel.getColumns().size() > columnIndex) && (columnIndex >= 0)) {
-            return utilsiateurModel.getColumns().get(columnIndex).getType();
+        if ((utilsiateurModel.getColumns().size() > realColumn) && (columnIndex >= 0)) {
+            return utilsiateurModel.getColumns().get(realColumn).getType();
         } else {
             return null;
         }
@@ -90,21 +103,27 @@ public class TableModelUtilisateur extends AbstractTableModel {
 
     @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {  //update
-        System.out.println("UTILISATEUR : \n" + this.utilisateurs.get(rowIndex));
+        int hiddenColumnName = this.columnIndexVisibleToHidden(columnIndex);
+        System.out.println("indexOfHiddenColumnName :" + hiddenColumnName);
+        System.out.println("visibleColumnNameIndex :" + columnIndex);
         UtilisateurModel user = this.utilisateurs.get(rowIndex);
-        String columnName = user.getColumns().get(columnIndex).getName();
+        String columnName = user.getColumns().get(hiddenColumnName).getName();
+        System.out.println("findedColumnName : " + columnName);
         user.set(columnName, aValue);
-        fireTableCellUpdated(rowIndex, columnIndex);
+        fireTableCellUpdated(rowIndex, hiddenColumnName);
+    }
+    
+    private int columnIndexVisibleToHidden(int columnIndex) {
+        String visibleColumnName = this.columnNames.get(columnIndex);
+        return this.columnNamesWithHiddens.indexOf(visibleColumnName);
     }
 
     public void addUtilisateur(UtilisateurModel user) {
         try {
             this.utilisateurs.add(user);
             fireTableDataChanged(); // Notifies JTable of utilisateurs change
-            System.out.println("utilisateur : \n " + user);
         } catch (Exception ex) {
             Logger.getLogger(TableModelUtilisateur.class.getName()).log(Level.SEVERE, null, ex);
-            System.out.println("erreur caca");
             System.out.println("Erreur utilisateur : \n " + user);
         }
     }
