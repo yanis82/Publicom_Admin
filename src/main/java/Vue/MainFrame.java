@@ -12,7 +12,9 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import utils.CheckedValue;
 import utils.Crypt;
+import utils.exception.EmailAlreadyExistException;
 import utils.validityClass.Email;
 import utils.validityClass.Nom;
 import utils.validityClass.Prenom;
@@ -63,9 +65,10 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         btnDelUser = new javax.swing.JButton();
         btnAddUser = new javax.swing.JButton();
+        btnUpdateUser = new javax.swing.JButton();
         PanelTable = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        TableUser = new javax.swing.JTable();
+        tableUser = new javax.swing.JTable();
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -160,16 +163,26 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
+        btnUpdateUser.setText("Modifier mot de passe");
+        btnUpdateUser.setMinimumSize(new java.awt.Dimension(27, 27));
+        btnUpdateUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateUserActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btnAddUser, javax.swing.GroupLayout.DEFAULT_SIZE, 388, Short.MAX_VALUE)
-                .addGap(445, 445, 445)
-                .addComponent(btnDelUser, javax.swing.GroupLayout.DEFAULT_SIZE, 394, Short.MAX_VALUE)
-                .addGap(33, 33, 33))
+                .addComponent(btnAddUser, javax.swing.GroupLayout.DEFAULT_SIZE, 461, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(btnUpdateUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnDelUser, javax.swing.GroupLayout.DEFAULT_SIZE, 465, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -177,7 +190,8 @@ public class MainFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAddUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnDelUser))
+                    .addComponent(btnDelUser)
+                    .addComponent(btnUpdateUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -185,9 +199,9 @@ public class MainFrame extends javax.swing.JFrame {
 
         PanelTable.setBackground(new java.awt.Color(51, 51, 51));
 
-        TableUser.setForeground(new java.awt.Color(51, 51, 51));
-        TableUser.setModel(this.tableModel);
-        jScrollPane1.setViewportView(TableUser);
+        tableUser.setForeground(new java.awt.Color(51, 51, 51));
+        tableUser.setModel(this.tableModel);
+        jScrollPane1.setViewportView(tableUser);
 
         javax.swing.GroupLayout PanelTableLayout = new javax.swing.GroupLayout(PanelTable);
         PanelTable.setLayout(PanelTableLayout);
@@ -195,7 +209,7 @@ public class MainFrame extends javax.swing.JFrame {
             PanelTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelTableLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1254, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1114, Short.MAX_VALUE)
                 .addContainerGap())
         );
         PanelTableLayout.setVerticalGroup(
@@ -221,31 +235,35 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void btnAddUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddUserActionPerformed
         try {
-            
-        Prenom prenom = new Prenom(this.tfPrenom.getText());
-        Nom nom = new Nom(this.tfNom.getText());
-        Email mail = new Email(this.tfMail.getText());
-        String motDePasse = this.tfMotDePasse.getText();
-        Crypt chiffrement = new Crypt();
 
-        var checkedPassword = chiffrement.checkPassword(motDePasse);
-        if (checkedPassword.isValid()) {
-            String password = chiffrement.hash(motDePasse);
-            UtilisateurModel utilisateur = new UtilisateurModel(nom, prenom, mail, false, password);
-            UtilisateurDao utilisateurDao;
-            try {
-                utilisateurDao = new UtilisateurDao(utilisateur);
-                UtilisateurModel createdUtilisateur = utilisateurDao.insert(utilisateur);
-                this.tableModel.addUtilisateur(utilisateur);
-            } catch (SQLException ex) {
-                Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);            
-                JOptionPane.showMessageDialog(null, "Erreur Serveur", "Erreur", JOptionPane.ERROR_MESSAGE);
-            } catch(Exception ex) {
-                JOptionPane.showMessageDialog(null, "Erreur Inconnu", "Erreur", JOptionPane.ERROR_MESSAGE);
+            Prenom prenom = new Prenom(this.tfPrenom.getText());
+            Nom nom = new Nom(this.tfNom.getText());
+            Email mail = new Email(this.tfMail.getText());
+            String motDePasse = this.tfMotDePasse.getText();
+            Crypt chiffrement = new Crypt();
+
+            var checkedPassword = chiffrement.checkPassword(motDePasse);
+            if (checkedPassword.isValid()) {
+                String password = chiffrement.hash(motDePasse);
+                UtilisateurModel utilisateur = new UtilisateurModel(nom, prenom, mail, false, password);
+                UtilisateurDao utilisateurDao;
+                try {
+                    utilisateurDao = new UtilisateurDao(utilisateur);
+                    UtilisateurModel createdUtilisateur = utilisateurDao.insert(utilisateur);
+                    this.tableModel.addUtilisateur(utilisateur);
+                } catch (SQLException ex) {
+                    Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+                    JOptionPane.showMessageDialog(null, "Erreur Serveur", "Erreur", JOptionPane.ERROR_MESSAGE);
+                } catch(EmailAlreadyExistException ex) {
+                    Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+                    JOptionPane.showMessageDialog(null, "Email existe deja", "Erreur", JOptionPane.ERROR_MESSAGE);
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(null, "Erreur Inconnu", "Erreur", JOptionPane.ERROR_MESSAGE);
+                    System.err.println("Mainframe.btnAddUserActionPerformed() : " + ex.getMessage());
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, checkedPassword.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
             }
-        }else {
-            JOptionPane.showMessageDialog(null, checkedPassword.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
-        }
         } catch (IllegalArgumentException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
         } catch (Exception ex) {
@@ -259,13 +277,21 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAddUserMouseClicked
 
     private void btnDelUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDelUserActionPerformed
-        int[] selectedRows = this.TableUser.getSelectedRows();
-        for (int selectedRow : selectedRows) {
+        int[] selectedRows = this.tableUser.getSelectedRows();
+
+        /*
+         * Boucle inverse pour supprimer les lignes du tableau par le bas Sinon
+         * des exceptions apparaissent. Pourquoi : tableau de taille 4. je
+         * recupere la valeur 0 pour la supprimer. je la supprime (tableau
+         * taille 3) je recupere la valeur 1 pour la supprimer. je la supprime
+         * (tableau taille 2) je recupere la valeur 2 pour la supprimer. je la
+         * supprime impossible puisque la derniere valeur est en position 1
+         */
+        for (int i = selectedRows.length - 1; i > 0; i--) {
+            int selectedRow = selectedRows[i];
             UtilisateurModel selectedUser = this.tableModel.getRow(selectedRow);
-            System.out.println(selectedUser);
             try {
                 UtilisateurDao utilisateurDao = new UtilisateurDao(selectedUser);
-                utilisateurDao.delete(selectedUser);
                 this.tableModel.removeUtilisateur(selectedUser);
             } catch (SQLException ex) {
                 Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
@@ -277,6 +303,36 @@ public class MainFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         System.out.println("Del");
     }//GEN-LAST:event_btnDelUserMouseClicked
+
+    private void btnUpdateUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateUserActionPerformed
+        int[] selectedRows = this.tableUser.getSelectedRows();
+        if (selectedRows.length == 1) {
+            int selectedRow = selectedRows[0];
+            UtilisateurModel utilisateur = this.tableModel.getRow(selectedRow);
+            String newPass = JOptionPane.showInputDialog(this, "mon message", "**********");
+            Crypt chiffrement = new Crypt();
+            CheckedValue checkedPassword = chiffrement.checkPassword(newPass);
+            if (checkedPassword.isValid()) {
+                String hashedPassword = chiffrement.hash(newPass);
+                utilisateur.set(UtilisateurModel.TABLESENUM.MDP, hashedPassword);
+                UtilisateurDao utilisateurDao;
+                try {
+                    utilisateurDao = new UtilisateurDao(utilisateur);
+                    utilisateurDao.update(utilisateur);
+                } catch (SQLException ex) {
+                    Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+                    JOptionPane.showMessageDialog(null, "Erreur Serveur", "Erreur", JOptionPane.ERROR_MESSAGE);
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(null, "Erreur Inconnu", "Erreur", JOptionPane.ERROR_MESSAGE);
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, checkedPassword.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "une et une seule ligne doit etre selectionne", "Erreur", JOptionPane.ERROR_MESSAGE);
+        }
+
+    }//GEN-LAST:event_btnUpdateUserActionPerformed
 
     /**
      * @param args the command line arguments
@@ -323,12 +379,13 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JPanel PanelFormLeft;
     private javax.swing.JPanel PanelFormRight;
     private javax.swing.JPanel PanelTable;
-    private javax.swing.JTable TableUser;
     private javax.swing.JButton btnAddUser;
     private javax.swing.JButton btnDelUser;
+    private javax.swing.JButton btnUpdateUser;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable tableUser;
     private javax.swing.JTextField tfMail;
     private javax.swing.JTextField tfMotDePasse;
     private javax.swing.JTextField tfNom;

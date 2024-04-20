@@ -24,7 +24,7 @@ public class MysqlConnector {
 
     private MysqlConnector() { } //static class should not have public constructor
 
-    public static Connection getConnexion() throws SQLException {
+    public static Connection getConnection() throws SQLException {
         final String PASSWORD = "publicomDb";
         final String USER = "publicomAdmin";
         final String HOST = "localhost";//"172.28.36.14";

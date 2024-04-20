@@ -18,7 +18,7 @@ public class Email implements ValidityClass<String>  {
     public Email(String email) throws IllegalArgumentException {
         if (Email.isValid(email)) {
 
-            this.email = email;
+            this.email = email.toLowerCase();
         } else {
             throw new IllegalArgumentException("email invalide");
         }
@@ -29,7 +29,7 @@ public class Email implements ValidityClass<String>  {
     }
 
     public void setEmail(String adresseEmail) {
-        this.email = adresseEmail;
+        this.email = adresseEmail.toLowerCase();
     }
 
     @Override

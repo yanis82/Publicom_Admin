@@ -27,7 +27,7 @@ public abstract class SuperDao<T extends Model> {
     private Component component;
 
     protected SuperDao(T model) throws SQLException {
-        this.connection = MysqlConnector.getConnexion();
+        this.connection = MysqlConnector.getConnection();
         this.model = model;
         this.queryBuilder = new QueryBuilder();
     }
@@ -64,10 +64,11 @@ public abstract class SuperDao<T extends Model> {
         return listModels;
     }
 
-    public T insert(T model) throws SQLException {
+    public T insert(T model) throws SQLException, IllegalArgumentException {
+        this.verifConstraints(model);
         List<String> columns = model.getColumnsStr().subList(1, model.getColumnsStr().size());
         List<Object> values = model.getValues();
-        int generatedId = this.queryBuilder.insertInto(model.getTable(), columns, values);
+        int generatedId = this.queryBuilder.executeInsert(model.getTable(), columns, values);
         model.setId(generatedId);
         return model;
     }
@@ -91,4 +92,6 @@ public abstract class SuperDao<T extends Model> {
     
     
     protected abstract T createModelInstance();
+    public abstract void verifConstraints(T model) throws IllegalArgumentException, SQLException;
+    
 }

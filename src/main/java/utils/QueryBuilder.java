@@ -40,7 +40,7 @@ public class QueryBuilder {
 
     public QueryBuilder() throws SQLException {
         this.whereList = new ArrayList<>();
-        this.connection = MysqlConnector.getConnexion();
+        this.connection = MysqlConnector.getConnection();
     }
 
     public QueryBuilder select(Column... column) {
@@ -128,7 +128,7 @@ public class QueryBuilder {
         return query;
     }
 
-    public int insertInto(String table, List<String> columns, List<?> values) throws SQLException, IllegalArgumentException {
+    public int executeInsert(String table, List<String> columns, List<?> values) throws SQLException, IllegalArgumentException {
         if (columns.size() == values.size()) {
             String insertSql = String.format("INSERT INTO %s (%s) VALUES (", table, String.join(", ", columns));
             for (int i = 0; i < columns.size(); i++) {
@@ -148,7 +148,7 @@ public class QueryBuilder {
             int generatedId = -1;
             var generatedKeysResultSet = statement.getGeneratedKeys();
             if (generatedKeysResultSet.next()) {
-                generatedId = generatedKeysResultSet.getInt(1); // Assuming ID is Long
+                generatedId = generatedKeysResultSet.getInt(1);
             } else {
                 throw new SQLException("Failed to retrieve generated key");
             }

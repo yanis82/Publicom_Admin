@@ -58,7 +58,7 @@ public class UtilsiateurModelTest {
         utilisateur.set("PRENOMUTILISATEUR", "John");
 
 
-        assertEquals("John Doe", utilisateur.get("NOMUTILISATEUR"));
+        assertEquals("Doe", utilisateur.get("NOMUTILISATEUR"));
         assertEquals("johndoe@example.com", utilisateur.get("EMAILUTILISATEUR"));
 
         // Test for an invalid column name
@@ -73,13 +73,7 @@ public class UtilsiateurModelTest {
     @Test
     public void getUtilisateursValues() {
         UtilisateurModel utilisateur = new UtilisateurModel("Doe", "Jhon", "Jhon.doe@gmail.com", Boolean.FALSE, "#Mot2Passe");
-        System.out.println("getValues : ");
         List values = utilisateur.getValues();
-        System.out.println(values);
-        
-        System.out.println("\n\t type values :");
         List typeValues = values.stream().map((el) -> el.getClass()).toList();
-        System.out.println(typeValues);
-
     }
 }

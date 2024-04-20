@@ -55,7 +55,7 @@ public class DaoTest {
     @Test
     public void testConnection() {
         assertDoesNotThrow(() -> {
-            var connexion = MysqlConnector.getConnexion();
+            var connexion = MysqlConnector.getConnection();
         });
     }
     
@@ -81,7 +81,7 @@ public class DaoTest {
         List<Object> values = utilisateur.getValues();
         System.out.println("values : " + values);
         System.out.println("columns : " + columns);
-        int rowAffected = queryBuilder.insertInto(utilisateur.getTable(), columns, values);
+        int rowAffected = queryBuilder.insert(utilisateur.getTable(), columns, values);
         System.out.println("rowAffected : "+ rowAffected);
         assertTrue(true);
     }

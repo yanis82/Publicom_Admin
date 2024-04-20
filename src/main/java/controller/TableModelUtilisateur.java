@@ -48,7 +48,7 @@ public class TableModelUtilisateur extends AbstractTableModel {
 
     public UtilisateurModel getRow(int row) throws IllegalArgumentException {
         if (row >= utilisateurs.size()) {
-            throw new IllegalArgumentException(String.format("ligne (%s) ne peut pas etre superieur au nombre d'utilisateurs (%s)", row, utilisateurs.size()));
+            throw new IllegalArgumentException(String.format("TableModelUtilisateur.getRow() : ligne (%s) ne peut pas etre superieur au nombre d'utilisateurs (%s)", row, utilisateurs.size()));
         }
         return utilisateurs.get(row);
     }
@@ -129,6 +129,11 @@ public class TableModelUtilisateur extends AbstractTableModel {
     }
 
     public void removeUtilisateur(UtilisateurModel user) {
+        System.out.println("___________________________");
+        for(short i = 0; i < utilisateurs.size(); i++) {
+            UtilisateurModel utilisateur = utilisateurs.get(i);
+            System.out.println(String.format("%o->%o : %s", i, utilisateur.getId(), utilisateur));
+        }
         this.utilisateurs.remove(user);
         fireTableDataChanged(); // Notifies JTable of utilisateurs change
     }
@@ -136,4 +141,5 @@ public class TableModelUtilisateur extends AbstractTableModel {
     public List<UtilisateurModel> getData() {
         return Collections.unmodifiableList(this.utilisateurs); // Return unmodifiable list to prevent external modification
     }
+
 }

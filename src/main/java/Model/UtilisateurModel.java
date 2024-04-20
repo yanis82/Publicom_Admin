@@ -111,6 +111,10 @@ public class UtilisateurModel extends Model {
     public void setId(int id) {
         super.set(getColumnByEnum(TABLESENUM.ID), id);
     }
+    
+    public void set(TABLESENUM tablesenum, Object object) {
+        super.set(getColumnByEnum(tablesenum), object);
+    }
 
     // Add getter and setter methods for each field (optional)
     // Example getter
