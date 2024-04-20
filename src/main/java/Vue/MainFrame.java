@@ -287,11 +287,13 @@ public class MainFrame extends javax.swing.JFrame {
          * (tableau taille 2) je recupere la valeur 2 pour la supprimer. je la
          * supprime impossible puisque la derniere valeur est en position 1
          */
-        for (int i = selectedRows.length - 1; i > 0; i--) {
+        for (int i = selectedRows.length - 1; i >= 0; i--) {
+            System.out.println("i : " + i);
             int selectedRow = selectedRows[i];
             UtilisateurModel selectedUser = this.tableModel.getRow(selectedRow);
             try {
                 UtilisateurDao utilisateurDao = new UtilisateurDao(selectedUser);
+                utilisateurDao.delete(selectedUser);
                 this.tableModel.removeUtilisateur(selectedUser);
             } catch (SQLException ex) {
                 Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);

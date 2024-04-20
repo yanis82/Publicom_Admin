@@ -129,11 +129,6 @@ public class TableModelUtilisateur extends AbstractTableModel {
     }
 
     public void removeUtilisateur(UtilisateurModel user) {
-        System.out.println("___________________________");
-        for(short i = 0; i < utilisateurs.size(); i++) {
-            UtilisateurModel utilisateur = utilisateurs.get(i);
-            System.out.println(String.format("%o->%o : %s", i, utilisateur.getId(), utilisateur));
-        }
         this.utilisateurs.remove(user);
         fireTableDataChanged(); // Notifies JTable of utilisateurs change
     }
