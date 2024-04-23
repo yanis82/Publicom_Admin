@@ -11,32 +11,32 @@ import java.util.regex.Pattern;
  *
  * @author 08luc
  */
-public class Email implements ValidityClass<String>  {
-
+public class Email implements ValidityClass<String> {
+    
     private String email;
-
+    
     public Email(String email) throws IllegalArgumentException {
-        if (Email.isValid(email)) {
-
-            this.email = email.toLowerCase();
-        } else {
-            throw new IllegalArgumentException("email invalide");
-        }
+        setEmail(email);
     }
-
+    
     public String getEmail() {
         return email;
     }
-
-    public void setEmail(String adresseEmail) {
-        this.email = adresseEmail.toLowerCase();
+    
+    public void setEmail(String adresseEmail) throws IllegalArgumentException {
+        System.out.println("setemail de + "  + adresseEmail);
+        if (Email.isValid(adresseEmail)) {
+            this.email = adresseEmail.toLowerCase();
+        } else {
+            throw new IllegalArgumentException("email invalide : " + adresseEmail);
+        }
     }
-
+    
     @Override
     public String toString() {
         return this.email;
     }
-
+    
     public String getValue() {
         return this.email;
     }
@@ -46,7 +46,7 @@ public class Email implements ValidityClass<String>  {
         // Regex pour valider l'adresse email
         return Pattern.matches("[^@]+@[^@]+\\.[^@]+", email);
     }
-
+    
     public static Email cast(String value) throws TextFormat.ParseException {
         // Implement validation logic here to ensure the String is a valid email address
         // You can use regular expressions or other validation techniques
@@ -56,6 +56,6 @@ public class Email implements ValidityClass<String>  {
         } else {
             throw new TextFormat.ParseException("Invalid email format");
         }
-
+        
     }
 }

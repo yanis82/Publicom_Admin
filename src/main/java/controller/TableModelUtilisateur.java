@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.AbstractTableModel;
+import utils.Column;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt
@@ -109,8 +110,15 @@ public class TableModelUtilisateur extends AbstractTableModel {
         UtilisateurModel user = this.utilisateurs.get(rowIndex);
         String columnName = user.getColumns().get(hiddenColumnName).getName();
         System.out.println("findedColumnName : " + columnName);
+        System.out.println("aValue : " + aValue);
+//        for(Column column  : user.getColumns()) {
+//            if(column.getName() == columnName && !column.getType().isInstance(aValue)) {
+//                System.out.println(String.format("%s est de type %s\n %s est de type %s", column.getName(), column.getType(), aValue, aValue.getClass()));
+//                throw new IllegalArgumentException();
+//            }
+//        }
         user.set(columnName, aValue);
-        fireTableCellUpdated(rowIndex, hiddenColumnName);
+//        fireTableCellUpdated(rowIndex, hiddenColumnName);
     }
     
     private int columnIndexVisibleToHidden(int columnIndex) {

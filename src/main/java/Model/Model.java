@@ -20,7 +20,7 @@ public abstract class Model {
 
     protected final String table;
     private final List<Column> columns;
-    protected Map<String, Object> row;
+    protected Map<String, Object> row; // nom colonne -> valeur
 
     protected Model(String table, List<Column> columns) {
         this.table = table;
@@ -48,7 +48,6 @@ public abstract class Model {
         System.out.println(String.format("Model.set(%s, %s)", columnName, value));
         if (this.row.containsKey(columnName)) {
             this.row.put(columnName, value);
-            //TODO: Verifier si value correspond au type attendue de la column
         } else {
             throw new IllegalArgumentException("Column " + columnName + " not found in model");
         }
