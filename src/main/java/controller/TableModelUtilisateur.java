@@ -111,14 +111,8 @@ public class TableModelUtilisateur extends AbstractTableModel {
         String columnName = user.getColumns().get(hiddenColumnName).getName();
         System.out.println("findedColumnName : " + columnName);
         System.out.println("aValue : " + aValue);
-//        for(Column column  : user.getColumns()) {
-//            if(column.getName() == columnName && !column.getType().isInstance(aValue)) {
-//                System.out.println(String.format("%s est de type %s\n %s est de type %s", column.getName(), column.getType(), aValue, aValue.getClass()));
-//                throw new IllegalArgumentException();
-//            }
-//        }
         user.set(columnName, aValue);
-//        fireTableCellUpdated(rowIndex, hiddenColumnName);
+        fireTableCellUpdated(rowIndex, hiddenColumnName);
     }
     
     private int columnIndexVisibleToHidden(int columnIndex) {
