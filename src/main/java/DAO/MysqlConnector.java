@@ -25,9 +25,9 @@ public class MysqlConnector {
     private MysqlConnector() { } //static class should not have public constructor
 
     public static Connection getConnection() throws SQLException {
-        final String PASSWORD = "publicomDb";
-        final String USER = "publicomAdmin";
-        final String HOST = "172.28.36.14";
+        final String PASSWORD = "admin";
+        final String USER = "admin";
+        final String HOST = "172.28.36.1";
         if (con == null) {
             con = DriverManager.getConnection("jdbc:mysql://" + HOST + ":3306/publicom", USER, PASSWORD);
         }
