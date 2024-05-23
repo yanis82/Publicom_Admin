@@ -72,7 +72,7 @@ public class UtilsiateurModelTest {
 
     @Test
     public void getUtilisateursValues() {
-        UtilisateurModel utilisateur = new UtilisateurModel("Doe", "Jhon", "Jhon.doe@gmail.com", Boolean.FALSE, "#Mot2Passe");
+        UtilisateurModel utilisateur = new UtilisateurModel("Doe", "Jhon", "Jhon.doe@gmail.com", Boolean.FALSE, "#Mot2Passe", "2024-04-03");
         List values = utilisateur.getValues();
         List typeValues = values.stream().map((el) -> el.getClass()).toList();
     }

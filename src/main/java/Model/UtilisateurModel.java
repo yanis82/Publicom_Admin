@@ -4,10 +4,12 @@
  */
 package Model;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import utils.Column;
+import utils.validityClass.DateNaissance;
 import utils.validityClass.Email;
 import utils.validityClass.Nom;
 import utils.validityClass.Prenom;
@@ -19,36 +21,34 @@ import utils.validityClass.Prenom;
 public class UtilisateurModel extends Model {
 
     private static final List<Column> columns;
-    
-    
 
     public UtilisateurModel() {
         super("UTILISATEUR", columns); // Set table name
     }
 
-    public UtilisateurModel(Nom nom, Prenom prenom, Email email, Boolean isAdmin, String password) throws IllegalArgumentException {
+    public UtilisateurModel(Nom nom, Prenom prenom, Email email, Boolean isAdmin, String password, DateNaissance date) throws IllegalArgumentException {
         this();
         super.set(getColumnByEnum(TABLESENUM.NOM), nom);
         super.set(getColumnByEnum(TABLESENUM.PRENOM), prenom);
         super.set(getColumnByEnum(TABLESENUM.EMAIL), email);
         super.set(getColumnByEnum(TABLESENUM.ISADMIN), isAdmin);
         super.set(getColumnByEnum(TABLESENUM.MDP), password);
+        super.set(getColumnByEnum(TABLESENUM.DATENAISSANCE), date);
     }
-    
-    public UtilisateurModel(String nom, String prenom, String email, Boolean isAdmin, String password) throws IllegalArgumentException {
-        this(new Nom(nom), new Prenom(prenom), new Email(email), isAdmin, password);
+
+    public UtilisateurModel(String nom, String prenom, String email, Boolean isAdmin, String password, String date) throws IllegalArgumentException {
+        this(new Nom(nom), new Prenom(prenom), new Email(email), isAdmin, password, new DateNaissance(date));
     }
-    
-    
+
     // Static \\
-    
     public static enum TABLESENUM {
         ID,
         NOM,
         PRENOM,
         EMAIL,
         ISADMIN,
-        MDP
+        MDP,
+        DATENAISSANCE
     }
 
     public static String getColumnByEnum(TABLESENUM column) {
@@ -65,6 +65,8 @@ public class UtilisateurModel extends Model {
                 "ISADMIN";
             case MDP ->
                 "MDPUTILISATEUR";
+            case DATENAISSANCE ->
+                "DATENAISSANCE";
         };
     }
 
@@ -76,17 +78,16 @@ public class UtilisateurModel extends Model {
         cols.add(Column.of(getColumnByEnum(TABLESENUM.EMAIL), Email.class));
         cols.add(Column.ofBool(getColumnByEnum(TABLESENUM.ISADMIN)));
         cols.add(Column.ofString(getColumnByEnum(TABLESENUM.MDP)));
+        cols.add(Column.of(getColumnByEnum(TABLESENUM.DATENAISSANCE), DateNaissance.class));
         columns = Collections.unmodifiableList(cols);
     }
-    
-    // Public \\
 
+    // Public \\
     @Override
     public int getId() {
         return (int) super.get(getColumnByEnum(TABLESENUM.ID));
     }
-    
-    
+
     public List<Object> getValues() {
         ArrayList<Object> values = new ArrayList<>();
         for (TABLESENUM columnEnum : TABLESENUM.values()) {
@@ -98,11 +99,10 @@ public class UtilisateurModel extends Model {
         return values;
     }
 
-    
     public void setId(int id) {
         super.set(getColumnByEnum(TABLESENUM.ID), id);
     }
-    
+
     public void set(TABLESENUM tablesenum, Object object) {
         super.set(getColumnByEnum(tablesenum), object);
     }

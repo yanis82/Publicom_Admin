@@ -4,6 +4,8 @@
  */
 package utils;
 
+import java.time.LocalDate;
+
 /**
  *
  * @author 08luc
@@ -29,7 +31,7 @@ public class Column {
     public static Column of(String name, Class<?> type) {
         return new Column(name, type);
     }
-    
+
     public static Column ofString(String name) {
         return Column.of(name, String.class);
     }
@@ -37,14 +39,18 @@ public class Column {
     public static Column ofInt(String name) {
         return Column.of(name, Integer.class);
     }
-    
+
     public static Column ofBool(String name) {
         return Column.of(name, Boolean.class);
+    }
+
+    public static Column ofDate(String name) {
+        return Column.of(name, LocalDate.class);
     }
 
     @Override
     public String toString() {
         return "Column{" + "\n\tname=" + name + ", \n\ttype=" + type + "\n}";
     }
-    
+
 }

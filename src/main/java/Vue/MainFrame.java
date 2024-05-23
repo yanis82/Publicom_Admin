@@ -8,6 +8,8 @@ import DAO.UtilisateurDao;
 import Model.UtilisateurModel;
 import controller.TableModelUtilisateur;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,6 +17,7 @@ import javax.swing.JOptionPane;
 import utils.CheckedValue;
 import utils.Crypt;
 import utils.exception.EmailAlreadyExistException;
+import utils.validityClass.DateNaissance;
 import utils.validityClass.Email;
 import utils.validityClass.Nom;
 import utils.validityClass.Prenom;
@@ -62,6 +65,7 @@ public class MainFrame extends javax.swing.JFrame {
         tfNom = new javax.swing.JTextField();
         tfMail = new javax.swing.JTextField();
         tfMotDePasse = new javax.swing.JTextField();
+        tfDateNaissance = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         btnDelUser = new javax.swing.JButton();
         btnAddUser = new javax.swing.JButton();
@@ -125,6 +129,16 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
         PanelFormRight.add(tfMotDePasse);
+
+        tfDateNaissance.setBackground(new java.awt.Color(51, 51, 51));
+        tfDateNaissance.setForeground(new java.awt.Color(204, 204, 204));
+        tfDateNaissance.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Date de naissance", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(204, 204, 204))); // NOI18N
+        tfDateNaissance.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tfDateNaissanceActionPerformed(evt);
+            }
+        });
+        PanelFormRight.add(tfDateNaissance);
 
         PanelForm.add(PanelFormRight);
 
@@ -217,7 +231,7 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(PanelTableLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 537, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         getContentPane().add(PanelTable);
@@ -237,6 +251,8 @@ public class MainFrame extends javax.swing.JFrame {
         try {
 
             Prenom prenom = new Prenom(this.tfPrenom.getText());
+            LocalDate dateNaissanceLocalDate = LocalDate.parse(tfDateNaissance.getText());
+            DateNaissance dateNaissance = new DateNaissance(dateNaissanceLocalDate.toString());
             Nom nom = new Nom(this.tfNom.getText());
             Email mail = new Email(this.tfMail.getText());
             String motDePasse = this.tfMotDePasse.getText();
@@ -245,7 +261,7 @@ public class MainFrame extends javax.swing.JFrame {
             var checkedPassword = chiffrement.checkPassword(motDePasse);
             if (checkedPassword.isValid()) {
                 String password = chiffrement.hash(motDePasse);
-                UtilisateurModel utilisateur = new UtilisateurModel(nom, prenom, mail, false, password);
+                UtilisateurModel utilisateur = new UtilisateurModel(nom, prenom, mail, false, password, dateNaissance);
                 UtilisateurDao utilisateurDao;
                 try {
                     utilisateurDao = new UtilisateurDao(utilisateur);
@@ -253,20 +269,24 @@ public class MainFrame extends javax.swing.JFrame {
                     this.tableModel.addUtilisateur(utilisateur);
                 } catch (SQLException ex) {
                     Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
-                    JOptionPane.showMessageDialog(null, "Erreur Serveur", "Erreur", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Erreur Serveur", "Erreur", JOptionPane.ERROR_MESSAGE);
                 } catch(EmailAlreadyExistException ex) {
                     Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
-                    JOptionPane.showMessageDialog(null, "Email existe deja", "Erreur", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Email existe deja", "Erreur", JOptionPane.ERROR_MESSAGE);
                 } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(null, "Erreur Inconnu", "Erreur", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Erreur Inconnu", "Erreur", JOptionPane.ERROR_MESSAGE);
                     System.err.println("Mainframe.btnAddUserActionPerformed() : " + ex.getMessage());
                 }
             } else {
-                JOptionPane.showMessageDialog(null, checkedPassword.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, checkedPassword.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
             }
         } catch (IllegalArgumentException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
-        } catch (Exception ex) {
+        }catch(DateTimeParseException ex) {
+            JOptionPane.showMessageDialog(this, "Date invalide veuillez respecter le format (AAAA-MM-JJ)", "Erreur", JOptionPane.ERROR_MESSAGE);
+        } 
+        catch (Exception ex) {
+            System.out.println(ex);
             System.out.println(ex.getMessage());
             JOptionPane.showMessageDialog(null, "Erreur inconnu", "Erreur", JOptionPane.ERROR_MESSAGE);
         }
@@ -336,6 +356,10 @@ public class MainFrame extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnUpdateUserActionPerformed
 
+    private void tfDateNaissanceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfDateNaissanceActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tfDateNaissanceActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -388,6 +412,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tableUser;
+    private javax.swing.JTextField tfDateNaissance;
     private javax.swing.JTextField tfMail;
     private javax.swing.JTextField tfMotDePasse;
     private javax.swing.JTextField tfNom;
